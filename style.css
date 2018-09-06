@@ -1,0 +1,18 @@
+.transition-horizontal {
+  animation: transition-horizontal 0.5s ease-out; }
+
+.transition-vertical {
+  animation: transition-vertical 0.5s ease-out; }
+
+@keyframes transition-horizontal {
+  from {
+    transform: translateX(0%); }
+  to {
+    transform: translateX(100%); } }
+@keyframes transition-vertical {
+  from {
+    transform: translateY(0%); }
+  to {
+    transform: translateY(100%); } }
+
+/*# sourceMappingURL=style.css.map */

@@ -1,11 +1,17 @@
+import { TransitionStyle } from '../utilities/navigation.utility';
+
 export class ViewController {
 
-    constructor() {
-        this.view = document.createElement('template')
+    constructor(view, transitionStyle) {
+        this.view = view || document.createElement('template')
+        this.transitionStyle = transitionStyle || TransitionStyle.Horizontal
+
         this.view.addEventListener('', this.viewBeforeLoad.bind(this))
         this.view.addEventListener('', this.viewDidLoad.bind(this))
         this.view.addEventListener('', this.viewBeforeUnload.bind(this))
         this.view.addEventListener('', this.viewDidUnload.bind(this))
+
+        console.log(this.view)
     }
 
     /**

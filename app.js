@@ -24,6 +24,6 @@ new (class App extends AppModule {
         console.log('applicationDidLoad --> The application has finished loading')
 
         // Here you can initiate your starting page, like home
-        Navigation.presentViewController(HomeViewController)
+        Navigation.presentViewController(HomeViewController, {})
     }
 })()
