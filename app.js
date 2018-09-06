@@ -24,6 +24,8 @@ new (class App extends AppModule {
         console.log('applicationDidLoad --> The application has finished loading')
 
         // Here you can initiate your starting page, like home
-        this.navigation.presentViewController(HomeViewController, {})
+        //this.navigation.presentViewController(HomeViewController, {})
+
+        setInterval(() => this.navigation.presentViewController(HomeViewController, {}), 2000)
     }
 })()

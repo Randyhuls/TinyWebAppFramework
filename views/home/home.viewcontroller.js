@@ -1,3 +1,6 @@
+// HTML template
+import * as HomeTemplate from './home.html'
+
 // Models
 import { ViewController } from '../../models/viewcontroller.model'
 
@@ -11,6 +14,11 @@ import { TradeService } from '../../services/trade.service.js'
 import { ProfileViewController } from '../profile/profile.viewcontroller.js'
 
 export class HomeViewController extends ViewController {
+
+    constructor() {
+        super(HomeTemplate)
+    }
+
     viewBeforeLoad() {
         super.viewBeforeLoad()
         console.log('viewBeforeLoad --> The view is about to load')

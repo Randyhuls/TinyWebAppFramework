@@ -1,6 +1,7 @@
 export const TransitionStyle = {
-    Horizontal: 0,
-    Vertical: 1
+    None: 0,
+    Horizontal: 1,
+    Vertical: 2
 }
 
 const AnimationDirection = {
@@ -44,6 +45,7 @@ export class Navigation {
         Navigation.updateDOM(viewController, false)
     }
 
+    // TODO: allow dismissing view controller that is not the active view controller
     dismissViewController(viewController) {
         // If no view controller was passed, dismiss the active view controller
         if (!viewController) {
@@ -80,9 +82,14 @@ export class Navigation {
     }
 
     static setTransitionStyle(viewController, { transitionStyle, animationDirection }) {
-        if (!transitionStyle) transitionStyle = TransitionStyle.Horizontal
-        console.log('Animate', viewController.view)
+        if (!transitionStyle) {
+            transitionStyle = TransitionStyle.Horizontal
+        } else if (this.stack.length <= 1) {
+            transitionStyle = TransitionStyle.None
+        }
+
         switch(transitionStyle) {
+            case TransitionStyle.None: break // No transition
             case TransitionStyle.Horizontal:
                 viewController.view.classList.add('transition-horizontal')
                 break

@@ -3,15 +3,24 @@ import { TransitionStyle } from '../utilities/navigation.utility';
 export class ViewController {
 
     constructor(view, transitionStyle) {
-        this.view = view || document.createElement('template')
+        // Parse the raw HTML document
+        let parser = new DOMParser()
+        let document = parser.parseFromString(view, 'text/html')
+
+        let vcContainer = document.createElement('div')
+        vcContainer.classList.add('_VIEWCONTROLLER_')
+        vcContainer.appendChild(document.querySelector('body').firstElementChild)
+
+        this.view = vcContainer
+
+        // Set transition style
         this.transitionStyle = transitionStyle || TransitionStyle.Horizontal
 
-        this.view.addEventListener('', this.viewBeforeLoad.bind(this))
+        // Bind life cycle events
+       /* this.view.addEventListener('', this.viewBeforeLoad.bind(this))
         this.view.addEventListener('', this.viewDidLoad.bind(this))
         this.view.addEventListener('', this.viewBeforeUnload.bind(this))
-        this.view.addEventListener('', this.viewDidUnload.bind(this))
-
-        console.log('View', this.view)
+        this.view.addEventListener('', this.viewDidUnload.bind(this))*/
     }
 
     /**

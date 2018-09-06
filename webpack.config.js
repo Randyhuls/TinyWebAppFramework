@@ -1,3 +1,4 @@
+
 const path = require('path');
 
 module.exports = {
@@ -6,5 +7,16 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, './dist'),
         filename: 'app-bundle.js'
+    },
+    module: {
+        rules: [{
+            test: /\.html$/,
+            use: [ {
+                loader: 'html-loader',
+                options: {
+                    minimize: true
+                }
+            }],
+        }]
     }
 };

@@ -2,6 +2,16 @@
 @import 'views/home/home.scss';
 @import 'views/profile/profile.scss';
 
+
+// Add any global app styles in this file
+body {
+
+
+  // My custom global styles
+
+
+}
+
 // Transition styles
 .transition-horizontal {
   animation: transition-horizontal 0.5s ease-out;
@@ -12,16 +22,20 @@
 }
 
 @keyframes transition-horizontal {
-  from { transform: translateX(0%) }
-  to { transform: translateX(100%) }
+  from { transform: translateX(100%) }
+  to { transform: translateX(0%) }
 }
 
 @keyframes transition-vertical {
-  from { transform: translateY(0%) }
-  to { transform: translateY(100%) }
+  from { transform: translateY(100%) }
+  to { transform: translateY(0%) }
 }
 
-// Add any global app styles in this file
-html, body {
-
+// View controller settings
+._VIEWCONTROLLER_ {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
 }
