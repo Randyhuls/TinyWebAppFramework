@@ -3,10 +3,6 @@ import { MobService } from './services/mob.service.js';
 
 new (class App extends ViewController {
 
-    constructor() {
-        super()
-    }
-
     viewBeforeLoad() {
         super.viewBeforeLoad()
         console.log('viewBeforeLoad --> The view has is about to load')
@@ -19,5 +15,9 @@ new (class App extends ViewController {
         super.viewDidLoad()
         console.log('viewDidLoad --> The view has finished loading')
 
+    }
+
+    doSomething() {
+        // TODO: some function
     }
 })()
