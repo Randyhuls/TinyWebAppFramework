@@ -1,17 +1,17 @@
 import { HTTP } from './http.service.js';
 
-export class MobService {
+export class PlayerService {
 
     constructor() {
-        this.BASE_URL = "http://www.some-url.com/mobs/"
+        this.BASE_URL = "http://www.some-url.com/players/"
     }
 
-    static getMobById(mobId) {
+    static getPlayerById(playerId) {
         let URL = `${this.BASE_URL}'mob?id='${id}`
         return HTTP.get(URL)
     }
 
-    static getDropsByMobId(mobId) {
+    static getCharactersByPlayerId(playerId) {
         let URL = `${this.BASE_URL}'drops/mob?id='${id}`
         return HTTP.get(URL)
     }

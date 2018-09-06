@@ -94,7 +94,7 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _models_viewcontroller_model_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./models/viewcontroller.model.js */ \"./models/viewcontroller.model.js\");\n/* harmony import */ var _services_mob_service_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./services/mob.service.js */ \"./services/mob.service.js\");\n\n\n\nnew (class App extends _models_viewcontroller_model_js__WEBPACK_IMPORTED_MODULE_0__[\"ViewController\"] {\n\n    constructor() {\n        super()\n    }\n\n    viewBeforeLoad() {\n        super.viewBeforeLoad()\n        console.log('viewBeforeLoad --> The view has is about to load')\n\n        // TODO: Here you can start making API calls\n        _services_mob_service_js__WEBPACK_IMPORTED_MODULE_1__[\"MobService\"].shared().mobs.push('Orc')\n        console.log(_services_mob_service_js__WEBPACK_IMPORTED_MODULE_1__[\"MobService\"].shared().mobs)\n    }\n\n    viewDidLoad() {\n        super.viewDidLoad()\n        console.log('viewDidLoad --> The view has finished loading')\n        _services_mob_service_js__WEBPACK_IMPORTED_MODULE_1__[\"MobService\"].shared().mobs.push('Elf')\n        console.log(_services_mob_service_js__WEBPACK_IMPORTED_MODULE_1__[\"MobService\"].shared().mobs)\n    }\n})()\n\n//# sourceURL=webpack:///./app.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _models_viewcontroller_model_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./models/viewcontroller.model.js */ \"./models/viewcontroller.model.js\");\n/* harmony import */ var _services_player_service_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./services/player.service.js */ \"./services/player.service.js\");\n/* harmony import */ var _services_mob_service_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./services/mob.service.js */ \"./services/mob.service.js\");\n/* harmony import */ var _services_item_service_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./services/item.service.js */ \"./services/item.service.js\");\n\n\n\n\n\nnew (class App extends _models_viewcontroller_model_js__WEBPACK_IMPORTED_MODULE_0__[\"ViewController\"] {\n\n    viewBeforeLoad() {\n        super.viewBeforeLoad()\n        console.log('viewBeforeLoad --> The view has is about to load')\n\n        // TODO: Here you can start making API calls\n        // PlayerService.getPlayerById('098765')\n        // MobService.getDropsByMobId('012345')\n        // ItemService.getItemById('654321')\n    }\n\n    viewDidLoad() {\n        super.viewDidLoad()\n        console.log('viewDidLoad --> The view has finished loading')\n\n    }\n\n    doSomething() {\n        // TODO: some function\n    }\n})()\n\n//# sourceURL=webpack:///./app.js?");
 
 /***/ }),
 
@@ -122,6 +122,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 /***/ }),
 
+/***/ "./services/item.service.js":
+/*!**********************************!*\
+  !*** ./services/item.service.js ***!
+  \**********************************/
+/*! exports provided: ItemService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"ItemService\", function() { return ItemService; });\n/* harmony import */ var _http_service_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./http.service.js */ \"./services/http.service.js\");\n\n\nclass ItemService {\n\n    constructor() {\n        this.BASE_URL = \"http://www.some-url.com/items/\"\n    }\n\n    static getItemById(itemId) {\n        let URL = `${this.BASE_URL}'item?id='${id}`\n        return _http_service_js__WEBPACK_IMPORTED_MODULE_0__[\"HTTP\"].get(URL)\n    }\n\n    static getItemsByPlayerId(playerId) {\n        let URL = `${this.BASE_URL}'items/player?id='${id}`\n        return _http_service_js__WEBPACK_IMPORTED_MODULE_0__[\"HTTP\"].get(URL)\n    }\n\n    static getItemsByMobId(playerId) {\n        let URL = `${this.BASE_URL}'items/mob?id='${id}`\n        return _http_service_js__WEBPACK_IMPORTED_MODULE_0__[\"HTTP\"].get(URL)\n    }\n\n\n}\n\n//# sourceURL=webpack:///./services/item.service.js?");
+
+/***/ }),
+
 /***/ "./services/mob.service.js":
 /*!*********************************!*\
   !*** ./services/mob.service.js ***!
@@ -130,7 +142,19 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"MobService\", function() { return MobService; });\n/* harmony import */ var _http_service_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./http.service.js */ \"./services/http.service.js\");\n\n\nclass MobService {\n\n    constructor() {\n        this.BASE_URL = \"http://www.some-url.com/\"\n\n        this.mobs = []\n    }\n\n    static shared() {\n        return new MobService()\n    }\n\n    getMobById(id) {\n        let URL = `${this.BASE_URL}'mob?id='${id}`\n        return _http_service_js__WEBPACK_IMPORTED_MODULE_0__[\"HTTP\"].get(URL)\n    }\n\n    getDropsByMobId() {\n        let URL = `${this.BASE_URL}'drops/mob?id='${id}`\n        return _http_service_js__WEBPACK_IMPORTED_MODULE_0__[\"HTTP\"].get(URL)\n    }\n\n    getItemById() {\n        let URL = `${this.BASE_URL}'item?id='${id}`\n        return _http_service_js__WEBPACK_IMPORTED_MODULE_0__[\"HTTP\"].get(URL)\n    }\n}\n\n//# sourceURL=webpack:///./services/mob.service.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"MobService\", function() { return MobService; });\n/* harmony import */ var _http_service_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./http.service.js */ \"./services/http.service.js\");\n\n\nclass MobService {\n\n    constructor() {\n        this.BASE_URL = \"http://www.some-url.com/mobs/\"\n    }\n\n    static getMobById(mobId) {\n        let URL = `${this.BASE_URL}'mob?id='${id}`\n        return _http_service_js__WEBPACK_IMPORTED_MODULE_0__[\"HTTP\"].get(URL)\n    }\n\n    static getDropsByMobId(mobId) {\n        let URL = `${this.BASE_URL}'drops/mob?id='${id}`\n        return _http_service_js__WEBPACK_IMPORTED_MODULE_0__[\"HTTP\"].get(URL)\n    }\n}\n\n//# sourceURL=webpack:///./services/mob.service.js?");
+
+/***/ }),
+
+/***/ "./services/player.service.js":
+/*!************************************!*\
+  !*** ./services/player.service.js ***!
+  \************************************/
+/*! exports provided: PlayerService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"PlayerService\", function() { return PlayerService; });\n/* harmony import */ var _http_service_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./http.service.js */ \"./services/http.service.js\");\n\n\nclass PlayerService {\n\n    constructor() {\n        this.BASE_URL = \"http://www.some-url.com/players/\"\n    }\n\n    static getPlayerById(playerId) {\n        let URL = `${this.BASE_URL}'mob?id='${id}`\n        return _http_service_js__WEBPACK_IMPORTED_MODULE_0__[\"HTTP\"].get(URL)\n    }\n\n    static getCharactersByPlayerId(playerId) {\n        let URL = `${this.BASE_URL}'drops/mob?id='${id}`\n        return _http_service_js__WEBPACK_IMPORTED_MODULE_0__[\"HTTP\"].get(URL)\n    }\n}\n\n//# sourceURL=webpack:///./services/player.service.js?");
 
 /***/ })
 
