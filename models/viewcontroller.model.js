@@ -1,10 +1,11 @@
 export class ViewController {
 
     constructor() {
-        window.addEventListener('DOMContentLoaded', this.viewBeforeLoad.bind(this))
-        window.addEventListener('load', this.viewDidLoad.bind(this))
-        window.addEventListener('beforeunload', this.viewBeforeUnload.bind(this))
-        window.addEventListener('unload', this.viewDidUnload.bind(this))
+        this.view = document.createElement('template')
+        this.view.addEventListener('', this.viewBeforeLoad.bind(this))
+        this.view.addEventListener('', this.viewDidLoad.bind(this))
+        this.view.addEventListener('', this.viewBeforeUnload.bind(this))
+        this.view.addEventListener('', this.viewDidUnload.bind(this))
     }
 
     /**

@@ -1,4 +1,4 @@
-import { HTTP } from './http.service.js';
+import { HTTP } from './http.service.js'
 
 export class ItemService {
 

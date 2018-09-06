@@ -1,31 +1,29 @@
-import { ViewController } from './models/viewcontroller.model.js';
-import { PlayerService } from './services/player.service.js';
-import { MobService } from './services/mob.service.js';
-import { ItemService } from './services/item.service.js';
-import { TradeService } from './services/trade.service.js';
+// Models
+import { AppModule } from './models/app-module.model.js'
 
-new (class App extends ViewController {
+// Utilities
+import { Navigation } from './utilities/navigation.utility.js'
 
-    viewBeforeLoad() {
-        super.viewBeforeLoad()
-        console.log('viewBeforeLoad --> The view has is about to load')
+// Viewcontrollers
+import { HomeViewController } from './views/home/home.viewcontroller.js'
 
-        // TODO: Here you can start making API calls
-        // PlayerService.getPlayerById('098765')
-        // MobService.getDropsByMobId('012345')
-        // ItemService.getItemById('654321')
-        // TradeService.requestTradeWithUserByPlayerById('098765')
+/**
+ * @description Bootstrap the app
+ */
+new (class App extends AppModule {
+
+    applicationWillLoad() {
+        super.applicationWillLoad()
+        console.log('applicationWillLoad --> The application is about to load')
+
+        // Here you can show a splash screen and/or spinner
     }
 
-    viewDidLoad() {
-        super.viewDidLoad()
-        console.log('viewDidLoad --> The view has finished loading')
+    applicationDidLoad() {
+        super.applicationDidLoad()
+        console.log('applicationDidLoad --> The application has finished loading')
 
-        // TODO: Here you can perform an UI changes
-        // doSomething()
-    }
-
-    doSomething() {
-        // TODO: some function
+        // Here you can initiate your starting page, like home
+        Navigation.presentViewController(HomeViewController)
     }
 })()

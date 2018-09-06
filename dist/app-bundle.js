@@ -94,7 +94,7 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _models_viewcontroller_model_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./models/viewcontroller.model.js */ \"./models/viewcontroller.model.js\");\n/* harmony import */ var _services_player_service_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./services/player.service.js */ \"./services/player.service.js\");\n/* harmony import */ var _services_mob_service_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./services/mob.service.js */ \"./services/mob.service.js\");\n/* harmony import */ var _services_item_service_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./services/item.service.js */ \"./services/item.service.js\");\n\n\n\n\n\nnew (class App extends _models_viewcontroller_model_js__WEBPACK_IMPORTED_MODULE_0__[\"ViewController\"] {\n\n    viewBeforeLoad() {\n        super.viewBeforeLoad()\n        console.log('viewBeforeLoad --> The view has is about to load')\n\n        // TODO: Here you can start making API calls\n        // PlayerService.getPlayerById('098765')\n        // MobService.getDropsByMobId('012345')\n        // ItemService.getItemById('654321')\n    }\n\n    viewDidLoad() {\n        super.viewDidLoad()\n        console.log('viewDidLoad --> The view has finished loading')\n\n    }\n\n    doSomething() {\n        // TODO: some function\n    }\n})()\n\n//# sourceURL=webpack:///./app.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _models_viewcontroller_model_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./models/viewcontroller.model.js */ \"./models/viewcontroller.model.js\");\n/* harmony import */ var _utilities_navigation_utility_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utilities/navigation.utility.js */ \"./utilities/navigation.utility.js\");\n/* harmony import */ var _services_player_service_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./services/player.service.js */ \"./services/player.service.js\");\n/* harmony import */ var _services_mob_service_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./services/mob.service.js */ \"./services/mob.service.js\");\n/* harmony import */ var _services_item_service_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./services/item.service.js */ \"./services/item.service.js\");\n/* harmony import */ var _services_trade_service_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./services/trade.service.js */ \"./services/trade.service.js\");\n/* harmony import */ var _views_home_home_viewcontroller_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/home/home.viewcontroller.js */ \"./views/home/home.viewcontroller.js\");\n// Models\n\n\n// Utilities\n\n\n// Services\n\n\n\n\n\n// Viewcontrollers\n\n\n/**\n * @description Bootstrap the app\n */\nnew (class App extends _models_viewcontroller_model_js__WEBPACK_IMPORTED_MODULE_0__[\"ViewController\"] {\n\n    viewBeforeLoad() {\n        super.viewBeforeLoad()\n        console.log('viewBeforeLoad --> The view has is about to load')\n\n        // Here you can show a splash screen and/or spinner\n    }\n\n    viewDidLoad() {\n        super.viewDidLoad()\n        console.log('viewDidLoad --> The view has finished loading')\n\n        // Here you can initiate your starting page, like home\n        _utilities_navigation_utility_js__WEBPACK_IMPORTED_MODULE_1__[\"Navigation\"].instantiateViewController(_views_home_home_viewcontroller_js__WEBPACK_IMPORTED_MODULE_6__[\"HomeViewController\"])\n    }\n})()\n\n//# sourceURL=webpack:///./app.js?");
 
 /***/ }),
 
@@ -155,6 +155,54 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"PlayerService\", function() { return PlayerService; });\n/* harmony import */ var _http_service_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./http.service.js */ \"./services/http.service.js\");\n\n\nclass PlayerService {\n\n    constructor() {\n        this.BASE_URL = \"http://www.some-url.com/players/\"\n    }\n\n    static getPlayerById(playerId) {\n        let URL = `${this.BASE_URL}player?id=${id}`\n        return _http_service_js__WEBPACK_IMPORTED_MODULE_0__[\"HTTP\"].get(URL)\n    }\n\n    static getCharactersByPlayerId(playerId) {\n        let URL = `${this.BASE_URL}player/characters?playerid=${playerId}`\n        return _http_service_js__WEBPACK_IMPORTED_MODULE_0__[\"HTTP\"].get(URL)\n    }\n\n    static getCharacterById(characterId) {\n        let URL = `${this.BASE_URL}player/character?characterid=${characterId}`\n        return _http_service_js__WEBPACK_IMPORTED_MODULE_0__[\"HTTP\"].get(URL)\n    }\n}\n\n//# sourceURL=webpack:///./services/player.service.js?");
+
+/***/ }),
+
+/***/ "./services/trade.service.js":
+/*!***********************************!*\
+  !*** ./services/trade.service.js ***!
+  \***********************************/
+/*! exports provided: TradeService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"TradeService\", function() { return TradeService; });\n/* harmony import */ var _http_service_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./http.service.js */ \"./services/http.service.js\");\n\n\nclass TradeService {\n\n    constructor() {\n        this.BASE_URL = \"http://www.some-url.com/trades/\"\n    }\n\n    static requestTradeWithUserByPlayerById(playerId) {\n        let URL = `${this.BASE_URL}request-trade?playerid=${id}` // player here is the opposing player\n        return _http_service_js__WEBPACK_IMPORTED_MODULE_0__[\"HTTP\"].get(URL)\n    }\n\n    /**\n     * @description Adds the items to the current trade request\n     * @param items: array of items\n     * @returns {*}\n     */\n    static submitItemsToTrade(tradeId, items) {\n        let URL = `${this.BASE_URL}submit-trade?tradeid=${tradeId}/`\n        return _http_service_js__WEBPACK_IMPORTED_MODULE_0__[\"HTTP\"].post(URL)\n    }\n\n    /**\n     * @description Confirm trade; tradeId should be returned by server\n     * @param tradeId\n     * @returns {*}\n     */\n    static confirmTrade(tradeId) {\n        let URL = `${this.BASE_URL}confirm-trade?tradeid=${tradeId}/`\n        return _http_service_js__WEBPACK_IMPORTED_MODULE_0__[\"HTTP\"].post(URL)\n    }\n}\n\n//# sourceURL=webpack:///./services/trade.service.js?");
+
+/***/ }),
+
+/***/ "./utilities/navigation.utility.js":
+/*!*****************************************!*\
+  !*** ./utilities/navigation.utility.js ***!
+  \*****************************************/
+/*! exports provided: PresentationStyle, TransitionStyle, Navigation */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"PresentationStyle\", function() { return PresentationStyle; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"TransitionStyle\", function() { return TransitionStyle; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"Navigation\", function() { return Navigation; });\n/* harmony import */ var _models_viewcontroller_model__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../models/viewcontroller.model */ \"./models/viewcontroller.model.js\");\n\n\nconst PresentationStyle = {\n    'ReplaceContext': 0,\n    'OverContext': 1\n}\n\nconst TransitionStyle = {\n    'Horizontal': 0,\n    'Vertical': 1\n}\n\nclass Navigation {\n\n    static instantiateViewController(viewController, { presentationStyle, transitionStyle }) {\n        if (typeof viewController !== _models_viewcontroller_model__WEBPACK_IMPORTED_MODULE_0__[\"ViewController\"]) return\n        \n\n    }\n}\n\n//# sourceURL=webpack:///./utilities/navigation.utility.js?");
+
+/***/ }),
+
+/***/ "./views/home/home.viewcontroller.js":
+/*!*******************************************!*\
+  !*** ./views/home/home.viewcontroller.js ***!
+  \*******************************************/
+/*! exports provided: HomeViewController */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"HomeViewController\", function() { return HomeViewController; });\n/* harmony import */ var _models_viewcontroller_model__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../models/viewcontroller.model */ \"./models/viewcontroller.model.js\");\n/* harmony import */ var _profile_profile_viewcontroller_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../profile/profile.viewcontroller.js */ \"./views/profile/profile.viewcontroller.js\");\n// Models\n\n\n// Viewcontrollers\n\n\nclass HomeViewController extends _models_viewcontroller_model__WEBPACK_IMPORTED_MODULE_0__[\"ViewController\"] {\n    viewBeforeLoad() {\n        super.viewBeforeLoad()\n        console.log('viewBeforeLoad --> The view has is about to load')\n\n        // TODO: Here you can start making API calls\n        // PlayerService.getPlayerById('098765')\n        // MobService.getDropsByMobId('012345')\n        // ItemService.getItemById('654321')\n        // TradeService.requestTradeWithUserByPlayerById('098765')\n    }\n\n    viewDidLoad() {\n        super.viewDidLoad()\n        console.log('viewDidLoad --> The view has finished loading')\n\n        // TODO: Here you can perform an UI changes\n        // doSomething()\n    }\n\n    doSomething() {\n        // TODO: some function\n    }\n}\n\n//# sourceURL=webpack:///./views/home/home.viewcontroller.js?");
+
+/***/ }),
+
+/***/ "./views/profile/profile.viewcontroller.js":
+/*!*************************************************!*\
+  !*** ./views/profile/profile.viewcontroller.js ***!
+  \*************************************************/
+/*! exports provided: ProfileViewController */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"ProfileViewController\", function() { return ProfileViewController; });\n/* harmony import */ var _models_viewcontroller_model__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../models/viewcontroller.model */ \"./models/viewcontroller.model.js\");\n\n\nclass ProfileViewController extends _models_viewcontroller_model__WEBPACK_IMPORTED_MODULE_0__[\"ViewController\"] {\n\n}\n\n//# sourceURL=webpack:///./views/profile/profile.viewcontroller.js?");
 
 /***/ })
 
