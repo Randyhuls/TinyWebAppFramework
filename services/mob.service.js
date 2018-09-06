@@ -7,12 +7,12 @@ export class MobService {
     }
 
     static getMobById(mobId) {
-        let URL = `${this.BASE_URL}'mob?id='${id}`
+        let URL = `${this.BASE_URL}mob?id=${id}`
         return HTTP.get(URL)
     }
 
     static getDropsByMobId(mobId) {
-        let URL = `${this.BASE_URL}'drops/mob?id='${id}`
+        let URL = `${this.BASE_URL}drops/mob?id=${id}`
         return HTTP.get(URL)
     }
 }

@@ -4,28 +4,30 @@ export const HTTPMethod = {
 }
 
 export class HTTP {
+
     static get(URL) {
-        return new Promise((resolve, reject) => {
-            let request = new XMLHttpRequest()
-
-            request.onload = () => resolve(request.response)
-            request.onerror = (err) => reject(err)
-
-            request.open(HTTPMethod.GET, URL)
-            request.send()
-        })
+        return HTTP.request(HTTPMethod.GET, URL)
     }
 
     static post(URL, body) {
+        return HTTP.request(HTTPMethod.POST, URL, body)
+    }
+
+    static request(method, URL, body, headers) {
         return new Promise((resolve, reject) => {
             let request = new XMLHttpRequest()
 
             request.onload = () => resolve(request.response)
             request.onerror = (err) => reject(err)
 
-            request.open(HTTPMethod.GET, URL)
+            if (headers) {
+                headers.forEach((header) => {
+                    for (prop in header) request.setRequestHeader(prop, header[prop.hasOwnProperty()])
+                })
+            }
+
+            request.open(method, URL)
             request.send(body)
         })
     }
 }
-
