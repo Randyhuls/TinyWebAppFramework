@@ -22,7 +22,7 @@ export class HTTP {
 
             if (headers) {
                 headers.forEach((header) => {
-                    for (prop in header) request.setRequestHeader(prop, header[prop.hasOwnProperty()])
+                    for (prop in header) request.setRequestHeader(prop, header[prop])
                 })
             }
 

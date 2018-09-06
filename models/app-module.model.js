@@ -1,6 +1,11 @@
+import { Navigation, NavigationStack } from '../utilities/navigation.utility.js'
+
 export class AppModule {
 
     constructor() {
+        this.navigation = new Navigation()
+        this.navigationStack = NavigationStack
+
         window.addEventListener('DOMContentLoaded', this.applicationWillLoad.bind(this))
         window.addEventListener('load', this.applicationDidLoad.bind(this))
         window.addEventListener('beforeunload', this.applicationWillUnload.bind(this))

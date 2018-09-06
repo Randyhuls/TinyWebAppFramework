@@ -11,7 +11,7 @@ export class ViewController {
         this.view.addEventListener('', this.viewBeforeUnload.bind(this))
         this.view.addEventListener('', this.viewDidUnload.bind(this))
 
-        console.log(this.view)
+        console.log('View', this.view)
     }
 
     /**

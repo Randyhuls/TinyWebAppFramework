@@ -2,7 +2,7 @@
 import { AppModule } from './models/app-module.model.js'
 
 // Utilities
-import { Navigation } from './utilities/navigation.utility.js'
+
 
 // Viewcontrollers
 import { HomeViewController } from './views/home/home.viewcontroller.js'
@@ -24,6 +24,6 @@ new (class App extends AppModule {
         console.log('applicationDidLoad --> The application has finished loading')
 
         // Here you can initiate your starting page, like home
-        Navigation.presentViewController(HomeViewController, {})
+        this.navigation.presentViewController(HomeViewController, {})
     }
 })()

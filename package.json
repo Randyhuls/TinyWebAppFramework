@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack --config webpack.config.js"
   },
   "author": "R.C.B. Huls",
   "license": "ISC",
@@ -13,11 +13,11 @@
     "babel-core": "^6.26.3",
     "babel-loader": "^8.0.2",
     "babel-preset-env": "^1.7.0",
-    "uglifyjs-webpack-plugin": "^1.3.0",
-    "webpack": "^4.17.2"
+    "uglifyjs-webpack-plugin": "^1.3.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
+    "webpack": "^4.17.2",
     "webpack-cli": "^3.1.0"
   }
 }
