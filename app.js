@@ -21,6 +21,8 @@ new (class App extends ViewController {
         super.viewDidLoad()
         console.log('viewDidLoad --> The view has finished loading')
 
+        // TODO: Here you can perform an UI changes
+        // doSomething()
     }
 
     doSomething() {
