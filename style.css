@@ -1,8 +1,11 @@
+#HomeViewController {
+  padding: 20px; }
+
 .transition-horizontal {
-  animation: transition-horizontal 0.5s ease-out; }
+  animation: transition-horizontal 0.5s ease-out forwards; }
 
 .transition-vertical {
-  animation: transition-vertical 0.5s ease-out; }
+  animation: transition-vertical 0.5s ease-out forwards; }
 
 @keyframes transition-horizontal {
   from {

@@ -2,31 +2,28 @@ import { TransitionStyle } from '../utilities/navigation.utility';
 
 export class ViewController {
 
-    constructor(view, transitionStyle) {
+    constructor(displayName, view, transitionStyle) {
         // Parse the raw HTML document
         let parser = new DOMParser()
         let document = parser.parseFromString(view, 'text/html')
 
-        let vcContainer = document.createElement('div')
+        let vcContainer = document.querySelector('body').firstElementChild
         vcContainer.classList.add('_VIEWCONTROLLER_')
-        vcContainer.appendChild(document.querySelector('body').firstElementChild)
 
         this.view = vcContainer
+        this.displayName = displayName
 
         // Set transition style
         this.transitionStyle = transitionStyle || TransitionStyle.Horizontal
 
-        // Bind life cycle events
-       /* this.view.addEventListener('', this.viewBeforeLoad.bind(this))
-        this.view.addEventListener('', this.viewDidLoad.bind(this))
-        this.view.addEventListener('', this.viewBeforeUnload.bind(this))
-        this.view.addEventListener('', this.viewDidUnload.bind(this))*/
+        // Trigger viewBeforeLoad
+        this.viewWillLoad()
     }
 
     /**
      * Override these functions in your subclass to execute functions just before the the content has loaded
      */
-    viewBeforeLoad() { }
+    viewWillLoad() { }
 
     /**
      * Override this function in your subclass to execute functions right after the content has loaded
@@ -36,7 +33,7 @@ export class ViewController {
     /**
      * Override this function in your subclass to execute functions just before the content has unloaded
      */
-    viewBeforeUnload() { }
+    viewWillUnload() { }
 
     /**
      * Override this function in your subclass to execute functions right after the content has unloaded

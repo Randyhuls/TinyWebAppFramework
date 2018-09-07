@@ -16,14 +16,14 @@ import { ProfileViewController } from '../profile/profile.viewcontroller.js'
 export class HomeViewController extends ViewController {
 
     constructor() {
-        super(HomeTemplate)
+        super('Home', HomeTemplate)
     }
 
-    viewBeforeLoad() {
-        super.viewBeforeLoad()
-        console.log('viewBeforeLoad --> The view is about to load')
+    viewWillLoad() {
+        super.viewWillLoad()
+        console.log('viewWillLoad --> The view is about to load')
 
-        // TODO: Here you can start making API calls
+        // TODO:  Here you can perform things just before the view has loaded, like making API calls
         // PlayerService.getPlayerById('098765')
         // MobService.getDropsByMobId('012345')
         // ItemService.getItemById('654321')
@@ -34,8 +34,22 @@ export class HomeViewController extends ViewController {
         super.viewDidLoad()
         console.log('viewDidLoad --> The view has finished loading')
 
-        // TODO: Here you can perform an UI changes
+        // TODO: Here you can perform things right after the view has loaded, like UI changes
         // doSomething()
+    }
+
+    viewWillUnload() {
+        super.viewWillUnload()
+        console.log('viewWillUnload --> The view will unload from the rootview')
+
+        // TODO: Here you can perform things just before the view is about to be unloaded
+    }
+
+    viewDidUnload() {
+        super.viewDidUnload()
+        console.log('viewDidUnload --> The view was unloaded from the rootview')
+
+        // TODO: Here you can perform things right after the view has unloaded
     }
 
     doSomething() {

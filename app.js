@@ -2,10 +2,11 @@
 import { AppModule } from './models/app-module.model.js'
 
 // Utilities
-
+import { TransitionStyle } from './utilities/navigation.utility';
 
 // Viewcontrollers
 import { HomeViewController } from './views/home/home.viewcontroller.js'
+import { ProfileViewController } from './views/profile/profile.viewcontroller.js'
 
 /**
  * @description Bootstrap the app
@@ -24,7 +25,12 @@ new (class App extends AppModule {
         console.log('applicationDidLoad --> The application has finished loading')
 
         // Here you can initiate your starting page, like home
-        //this.navigation.presentViewController(HomeViewController, {})
+        this.navigation.presentViewController(HomeViewController, {})
+
+        setTimeout(() => this.navigation.presentViewController(ProfileViewController, { transitionStyle: TransitionStyle.Vertical }), 3000)
+        setTimeout(() => this.navigation.presentViewController(HomeViewController, { transitionStyle: TransitionStyle.Horizontal }), 2000)
+        setTimeout(() => this.navigation.dismissViewController(), 7000)
+        setTimeout(() => this.navigation.dismissViewController(), 2000)
 
         //setInterval(() => this.navigation.presentViewController(HomeViewController, {}), 2000)
     }

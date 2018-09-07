@@ -1,12 +1,14 @@
+import {ViewController} from "../models/viewcontroller.model";
+
 export const TransitionStyle = {
-    None: 0,
-    Horizontal: 1,
-    Vertical: 2
+    None: '',
+    Horizontal: 'transition-horizontal',
+    Vertical: 'transition-vertical'
 }
 
 const AnimationDirection = {
-    Forwards: 0,
-    Backwards: 1
+    Normal: 0,
+    Reverse: 1
 }
 
 export const NavigationStack = {
@@ -17,30 +19,28 @@ export const NavigationStack = {
 // TODO: clean up this wrong use of static functions
 export class Navigation {
 
-    constructor() {
-        console.log('stack', NavigationStack)
-    }
+    constructor() { }
 
     static get stack() {
         return NavigationStack.stack
     }
 
     static get activeViewController() {
-        return NavigationStack.activeViewController
+        return this.stack.activeViewController
     }
 
     presentViewController(viewController, { transitionStyle }) {
         // Instantiate the view controller before handling it
         viewController = new viewController()
 
-        //if (typeof viewController !== ViewController) return
+        if (!viewController instanceof ViewController) return
 
         if (!transitionStyle) transitionStyle = TransitionStyle.Horizontal
 
         Navigation.addToStack(viewController)
         Navigation.setTransitionStyle(viewController, {
             transitionStyle: transitionStyle,
-            animationDirection: AnimationDirection.Forwards
+            animationDirection: AnimationDirection.Normal
         })
         Navigation.updateDOM(viewController, false)
     }
@@ -55,30 +55,32 @@ export class Navigation {
             viewController = new viewController()
         }
 
-        //if (typeof viewController !== ViewController) return
+        if (!viewController instanceof ViewController) return
 
         Navigation.removeFromStack()
         Navigation.setTransitionStyle(viewController, {
             transitionStyle: viewController.transitionStyle,
-            animationDirection: AnimationDirection.Backwards
+            animationDirection: AnimationDirection.Reverse
         })
         Navigation.updateDOM(viewController, true)
     }
 
     static addToStack(viewController) {
-        NavigationStack.stack.push(viewController)
-        NavigationStack.activeViewController = NavigationStack.stack[NavigationStack.stack.length-1]
+        let stack = NavigationStack.stack
+        stack.push(viewController)
+        NavigationStack.activeViewController = stack[stack.length-1]
 
-        console.log('Active view controller -->', NavigationStack.activeViewController)
+        console.log('Active view controller -->', NavigationStack.activeViewController.displayName)
     }
 
     static removeFromStack() {
-        if (this.stack.length === 1) return
+        let stack = NavigationStack.stack
+        if (stack.length === 1) return
 
-        NavigationStack.stack.pop()
-        NavigationStack.activeViewController = NavigationStack.stack[NavigationStack.stack.length-1]
+        stack.pop()
+        NavigationStack.activeViewController = stack[stack.length-1]
 
-        console.log('Active view controller -->', NavigationStack.activeViewController)
+        console.log('Active view controller -->', NavigationStack.activeViewController.displayName)
     }
 
     static setTransitionStyle(viewController, { transitionStyle, animationDirection }) {
@@ -88,33 +90,49 @@ export class Navigation {
             transitionStyle = TransitionStyle.None
         }
 
+        if (animationDirection === AnimationDirection.Reverse) {
+
+        }
+
         switch(transitionStyle) {
             case TransitionStyle.None: break // No transition
             case TransitionStyle.Horizontal:
-                viewController.view.classList.add('transition-horizontal')
+                viewController.view.classList.add(TransitionStyle.Horizontal)
                 break
 
             case TransitionStyle.Vertical:
-                viewController.view.classList.add('transition-vertical')
-                break
-        }
 
-        if (animationDirection === AnimationDirection.Backwards) {
-            viewController.view.style.animationDirection = 'backwards'
+                viewController.view.classList.add(TransitionStyle.Vertical)
+                break
         }
     }
 
+    static updateNavigationView() {
+        let navigationBarView = document.querySelector('#NavigationBarView')
+        let title = navigationBarView.querySelector('.Title')
+        let backButton = navigationBarView.querySelector('.BackButton')
+
+        if (this.stack.length <= 1) backButton.style.display = 'none'
+
+        title.innerHTML = NavigationStack.activeViewController.displayName
+    }
+
+    // TODO: clean up this strange stack comparison
     static updateDOM(viewController, shouldPop) {
+        let rootView = document.querySelector('#RootView')
 
         if (!shouldPop) {
-            if (this.stack.length <= 1) {
-                document.body.appendChild(viewController.view)
+            if (this.stack.length === 1) { // Means this is the first, but not yet in the DOM
+                rootView.appendChild(viewController.view)
             } else {
-                document.body.insertBefore(viewController.view, viewController.view.previousElementSibling)
+                let previousVC = NavigationStack.stack[NavigationStack.stack.length-2]
+                rootView.insertBefore(viewController.view, previousVC.view)
             }
+            this.updateNavigationView()
         } else {
-            if (this.stack.length > 1) {
-                document.body.removeChild(viewController.view)
+            if (this.stack.length === 1) { // Means this is the remainder, the view has already been popped in the array
+                //rootView.removeChild(viewController.view)
+                this.updateNavigationView()
             } else {
                 console.log('This view controller is the last in the stack, and therefore cannot be popped')
             }
