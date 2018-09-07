@@ -26,6 +26,6 @@ new (class App extends AppModule {
         // Here you can initiate your starting page, like home
         //this.navigation.presentViewController(HomeViewController, {})
 
-        setInterval(() => this.navigation.presentViewController(HomeViewController, {}), 2000)
+        //setInterval(() => this.navigation.presentViewController(HomeViewController, {}), 2000)
     }
 })()
