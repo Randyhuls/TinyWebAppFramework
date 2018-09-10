@@ -25,11 +25,14 @@ new (class App extends AppModule {
         console.log('applicationDidLoad --> The application has finished loading')
 
         // Here you can initiate your starting page, like home
+        // Note: the first page on the stack is never transitioned
         this.navigation.presentViewController(HomeViewController, {})
-
-        setTimeout(() => this.navigation.presentViewController(ProfileViewController, { transitionStyle: TransitionStyle.Vertical }), 2000)
-        setTimeout(() => this.navigation.presentViewController(HomeViewController, { transitionStyle: TransitionStyle.Horizontal }), 4000)
-        setTimeout(() => this.navigation.dismissViewController(), 7000)
+        
+        // Examples of presenting and dismissing viewcontrollers
+        setTimeout(() => this.navigation.presentViewController(ProfileViewController, { transitionStyle: TransitionStyle.Horizontal }), 1000)
+        setTimeout(() => this.navigation.presentViewController(HomeViewController, { transitionStyle: TransitionStyle.Vertical }), 2000)
+        setTimeout(() => this.navigation.dismissViewController(), 3000)
+        setTimeout(() => this.navigation.dismissViewController(), 4000)
 
         //setInterval(() => this.navigation.presentViewController(HomeViewController, {}), 2000)
     }

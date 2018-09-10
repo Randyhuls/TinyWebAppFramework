@@ -1,4 +1,5 @@
 import {ViewController} from "../models/viewcontroller.model";
+import { HTMLElementUtility } from './htmlelement.utility'
 
 export const TransitionStyle = {
     None: '',
@@ -14,6 +15,13 @@ const AnimationDirection = {
 export const NavigationStack = {
     stack:  [],  // Stack of viewcontrollers,
     activeViewController: null // Currently presented viewcontroller
+}
+
+const ClassKey = {
+    ROOT_VIEW: '#RootView',
+    NAVIGATION_BAR_VIEW: '#NavigationBarView',
+    NAVIGATION_BACK_BTN: '.BackButton',
+    NAVIGATION_TITLE: '.Title'
 }
 
 // TODO: clean up this wrong use of static functions
@@ -35,14 +43,15 @@ export class Navigation {
 
         if (!viewController instanceof ViewController) return
 
-        if (!transitionStyle) transitionStyle = TransitionStyle.Horizontal
+        Navigation.setTransitionStyle(viewController, transitionStyle)
 
-        Navigation.addToStack(viewController)
-        Navigation.setTransitionStyle(viewController, {
-            transitionStyle: transitionStyle,
-            animationDirection: AnimationDirection.Normal
+        Navigation.initiateNavigation(viewController, { shouldPop: false }, () => {
+            Navigation.addToStack(viewController)
+            Navigation.updateNavigationView()
+
+            console.log('Active view controller -->', NavigationStack.activeViewController.displayName)
         })
-        Navigation.updateDOM(viewController, false)
+
     }
 
     // TODO: allow dismissing view controller that is not the active view controller
@@ -57,20 +66,26 @@ export class Navigation {
 
         if (!viewController instanceof ViewController) return
 
-        Navigation.removeFromStack()
-        Navigation.setTransitionStyle(viewController, {
-            transitionStyle: viewController.transitionStyle,
-            animationDirection: AnimationDirection.Reverse
+        Navigation.initiateNavigation(viewController, { shouldPop: true }, () => {
+            Navigation.removeFromStack()
+            Navigation.updateNavigationView()
+
+            console.log('Active view controller -->', NavigationStack.activeViewController.displayName)
         })
-        Navigation.updateDOM(viewController, true)
+    }
+
+    static setTransitionStyle(viewController, transitionStyle) {
+        if (this.stack.length === 0) {
+            viewController.transitionStyle = TransitionStyle.None
+        } else {
+            viewController.transitionStyle = transitionStyle ? transitionStyle : TransitionStyle.Horizontal
+        }
     }
 
     static addToStack(viewController) {
         let stack = NavigationStack.stack
         stack.push(viewController)
         NavigationStack.activeViewController = stack[stack.length-1]
-
-        console.log('Active view controller -->', NavigationStack.activeViewController.displayName)
     }
 
     static removeFromStack() {
@@ -79,64 +94,51 @@ export class Navigation {
 
         stack.pop()
         NavigationStack.activeViewController = stack[stack.length-1]
-
-        console.log('Active view controller -->', NavigationStack.activeViewController.displayName)
     }
 
-    static setTransitionStyle(viewController, { transitionStyle, animationDirection }) {
-        if (!transitionStyle) {
-            transitionStyle = TransitionStyle.Horizontal
-        } else if (this.stack.length <= 1) {
-            transitionStyle = TransitionStyle.None
+    static initiateNavigation(viewController, { shouldPop }, callback) {
+        let transitionStyle = ''
+
+        switch(viewController.transitionStyle) {
+            case TransitionStyle.None: transitionStyle = TransitionStyle.None; break
+            case TransitionStyle.Horizontal: transitionStyle = TransitionStyle.Horizontal; break
+            case TransitionStyle.Vertical: transitionStyle = TransitionStyle.Vertical; break
         }
 
-        if (animationDirection === AnimationDirection.Reverse) {
+        // A. If viewcontroller needs to be presented, insert it into the DOM first
+        if (!shouldPop) Navigation.addToDOM(viewController)
 
-        }
-
-        switch(transitionStyle) {
-            case TransitionStyle.None: break // No transition
-            case TransitionStyle.Horizontal:
-                viewController.view.classList.add(TransitionStyle.Horizontal)
-                break
-
-            case TransitionStyle.Vertical:
-
-                viewController.view.classList.add(TransitionStyle.Vertical)
-                break
+        if (transitionStyle === TransitionStyle.None) {
+            callback()
+        } else {
+            // Only modify DOM and call callback when the animation has finished
+            HTMLElementUtility.setClassWithAnimation(viewController.view, transitionStyle, shouldPop, () => {
+                // B. If viewcontroller needs to be dismissed, remove it from the DOM after the transition ends
+                //if (shouldPop) Navigation.removeFromDOM(viewController)
+                callback()
+            })
         }
     }
 
     static updateNavigationView() {
-        let navigationBarView = document.querySelector('#NavigationBarView')
-        let title = navigationBarView.querySelector('.Title')
-        let backButton = navigationBarView.querySelector('.BackButton')
+        let navigationBarView = document.querySelector(ClassKey.NAVIGATION_BAR_VIEW)
+        let title = navigationBarView.querySelector(ClassKey.NAVIGATION_TITLE)
+        let backButton = navigationBarView.querySelector(ClassKey.NAVIGATION_BACK_BTN)
 
         if (this.stack.length <= 1) backButton.style.display = 'none'
-
         title.innerHTML = NavigationStack.activeViewController.displayName
     }
 
-    // TODO: clean up this strange stack comparison
-    static updateDOM(viewController, shouldPop) {
-        let rootView = document.querySelector('#RootView')
-
-        if (!shouldPop) {
-            if (this.stack.length === 1) { // Means this is the first, but not yet in the DOM
-                rootView.appendChild(viewController.view)
-            } else {
-                let previousVC = NavigationStack.stack[NavigationStack.stack.length-2]
-                rootView.insertBefore(viewController.view, previousVC.view)
-            }
-            this.updateNavigationView()
-        } else {
-            if (this.stack.length === 1) { // Means this is the remainder, the view has already been popped in the array
-                //rootView.removeChild(viewController.view)
-                this.updateNavigationView()
-            } else {
-                console.log('This view controller is the last in the stack, and therefore cannot be popped')
-            }
+    static removeFromDOM(viewController) {
+        console.log(`removing viewcontroller ${viewController.displayName} from DOM`)
+        let rootView = document.querySelector(ClassKey.ROOT_VIEW)
+        if (this.stack.length !== 1) {
+            rootView.removeChild(viewController.view)
         }
+    }
 
+    static addToDOM(viewController) {
+        let rootView = document.querySelector(ClassKey.ROOT_VIEW)
+        rootView.appendChild(viewController.view)
     }
 }

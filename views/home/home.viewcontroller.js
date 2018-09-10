@@ -10,9 +10,6 @@ import { MobService } from '../../services/mob.service.js'
 import { ItemService } from '../../services/item.service.js'
 import { TradeService } from '../../services/trade.service.js'
 
-// Viewcontrollers
-import { ProfileViewController } from '../profile/profile.viewcontroller.js'
-
 export class HomeViewController extends ViewController {
 
     constructor() {
@@ -21,7 +18,7 @@ export class HomeViewController extends ViewController {
 
     viewWillLoad() {
         super.viewWillLoad()
-        console.log('viewWillLoad --> The view is about to load')
+        console.log('HomeViewController.viewWillLoad --> The view is about to load')
 
         // TODO:  Here you can perform things just before the view has loaded, like making API calls
         // PlayerService.getPlayerById('098765')
@@ -32,7 +29,7 @@ export class HomeViewController extends ViewController {
 
     viewDidLoad() {
         super.viewDidLoad()
-        console.log('viewDidLoad --> The view has finished loading')
+        console.log('HomeViewController.viewDidLoad --> The view has finished loading')
 
         // TODO: Here you can perform things right after the view has loaded, like UI changes
         // doSomething()
@@ -40,14 +37,14 @@ export class HomeViewController extends ViewController {
 
     viewWillUnload() {
         super.viewWillUnload()
-        console.log('viewWillUnload --> The view will unload from the rootview')
+        console.log('HomeViewController.viewWillUnload --> The view will unload from the rootview')
 
         // TODO: Here you can perform things just before the view is about to be unloaded
     }
 
     viewDidUnload() {
         super.viewDidUnload()
-        console.log('viewDidUnload --> The view was unloaded from the rootview')
+        console.log('HomeViewController.viewDidUnload --> The view was unloaded from the rootview')
 
         // TODO: Here you can perform things right after the view has unloaded
     }
