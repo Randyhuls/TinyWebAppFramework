@@ -110,8 +110,10 @@ body {
 
   .CenterItemView {
     flex: 2;
-    .title {
+
+    .Title {
       text-align: center;
+      font-weight: 700;
     }
   }
 

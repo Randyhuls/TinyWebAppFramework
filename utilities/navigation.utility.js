@@ -8,8 +8,8 @@ export const TransitionStyle = {
 }
 
 export const NavigationStack = {
-    stack:  [],  // Stack of viewcontrollers,
-    activeViewController: null // Currently presented viewcontroller
+    stack:  [],  // Stack of view controllers,
+    activeViewController: null // Currently presented view controller
 }
 
 const ClassKey = {
@@ -30,13 +30,25 @@ export class Navigation {
         })
     }
 
-    setRootViewController(viewController) {
+    set setRootViewController(viewController) {
         // Instantiate the view controller before handling it
-        viewController = new viewController()
+        if (!viewController instanceof ViewController) viewController = new viewController()
 
-        if (!viewController instanceof ViewController) return
+        // Clear all stacked views from DOM, and then insert the new root view controller
+        // before the active view controller
+        let rootView = document.querySelector(ClassKey.ROOT_VIEW)
+        NavigationStack.stack.forEach((vc) => {
+            if (vc.view !== NavigationStack.activeViewController.view) {
+                rootView.removeChild(vc.view)
+            }
+        })
+        rootView.insertBefore(viewController.view, NavigationStack.activeViewController.view)
 
-        NavigationStack.stack.unshift(viewController)
+        // Clear array and only add the the new root view controller and the active view controller
+        NavigationStack.stack = [viewController, NavigationStack.activeViewController]
+        Navigation.updateNavigationView()
+
+        console.log('Root view controller -->', viewController.displayName)
     }
 
     presentViewController(viewController, { transitionStyle }) {

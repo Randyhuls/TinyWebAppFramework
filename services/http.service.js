@@ -1,6 +1,6 @@
 export const HTTPMethod = {
-    'GET': 0,
-    'POST': 1
+    GET: 'GET',
+    POST: 'POST'
 }
 
 export class HTTP {

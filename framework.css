@@ -78,8 +78,9 @@ body {
     flex: 1; }
   #NavigationBarView .CenterItemView {
     flex: 2; }
-    #NavigationBarView .CenterItemView .title {
-      text-align: center; }
+    #NavigationBarView .CenterItemView .Title {
+      text-align: center;
+      font-weight: 700; }
   #NavigationBarView .RightItemView {
     flex: 1; }
 
