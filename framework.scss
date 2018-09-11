@@ -56,7 +56,7 @@ body {
     -webkit-align-items: center;
     align-items: center;
 
-    &.LeftItemView, &.RightItemView {
+    &.LeftBarItem, &.RightBarItem {
       max-width: 100px;
     }
 
@@ -108,11 +108,11 @@ body {
     }
   }
 
-  .LeftItemView {
+  .LeftBarItem {
     flex: 1;
   }
 
-  .CenterItemView {
+  .CenterBarItem {
     flex: 2;
 
     .Title {
@@ -121,7 +121,7 @@ body {
     }
   }
 
-  .RightItemView {
+  .RightBarItem {
     flex: 1;
   }
 }

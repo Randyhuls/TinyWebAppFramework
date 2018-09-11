@@ -44,7 +44,7 @@ body {
     -webkit-box-align: center;
     -webkit-align-items: center;
     align-items: center; }
-    #NavigationBarView .NavigationBarItem.LeftItemView, #NavigationBarView .NavigationBarItem.RightItemView {
+    #NavigationBarView .NavigationBarItem.LeftBarItem, #NavigationBarView .NavigationBarItem.RightBarItem {
       max-width: 100px; }
     #NavigationBarView .NavigationBarItem button {
       pointer-events: none;
@@ -76,14 +76,14 @@ body {
           opacity: 0.3; }
         #NavigationBarView .NavigationBarItem button#BackButton.active {
           transform: translateX(0px); }
-  #NavigationBarView .LeftItemView {
+  #NavigationBarView .LeftBarItem {
     flex: 1; }
-  #NavigationBarView .CenterItemView {
+  #NavigationBarView .CenterBarItem {
     flex: 2; }
-    #NavigationBarView .CenterItemView .Title {
+    #NavigationBarView .CenterBarItem .Title {
       text-align: center;
       font-weight: 700; }
-  #NavigationBarView .RightItemView {
+  #NavigationBarView .RightBarItem {
     flex: 1; }
 
 .ViewController {

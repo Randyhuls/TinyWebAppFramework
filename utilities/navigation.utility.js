@@ -1,6 +1,13 @@
 import {ViewController} from "../models/viewcontroller.model";
 import { HTMLElementUtility } from './htmlelement.utility'
 
+const ClassKey = {
+    ROOT_VIEW: '#RootView',
+    NAVIGATION_BAR_VIEW: '#NavigationBarView',
+    NAVIGATION_BACK_BTN: '#BackButton',
+    NAVIGATION_TITLE: '.Title'
+}
+
 export const TransitionStyle = {
     NONE: '',
     HORIZONTAL: 'transition-horizontal',
@@ -12,11 +19,19 @@ export const NavigationStack = {
     activeViewController: null // Currently presented view controller
 }
 
-const ClassKey = {
-    ROOT_VIEW: '#RootView',
-    NAVIGATION_BAR_VIEW: '#NavigationBarView',
-    NAVIGATION_BACK_BTN: '#BackButton',
-    NAVIGATION_TITLE: '.Title'
+export const NavigationBarItemType = {
+    LEFT: 'LeftBarItem',
+    RIGHT: 'RightBarItem'
+}
+
+export class NavigationBarItem {
+
+    setNavigationBarItem(navigationBarItemType) {
+        switch(navigationBarItemType) {
+            
+        }
+    }
+
 }
 
 export class Navigation {
@@ -51,7 +66,7 @@ export class Navigation {
         // Clear array and only add the the new root view controller and the active view controller
         NavigationStack.stack = viewController.displayName === avc.displayName ? [avc] : [viewController, avc]
         Navigation.updateNavigationView()
-        
+
         console.log('Root view controller -->', viewController.displayName)
     }
 
