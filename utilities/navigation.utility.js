@@ -20,14 +20,20 @@ export const NavigationStack = {
 const ClassKey = {
     ROOT_VIEW: '#RootView',
     NAVIGATION_BAR_VIEW: '#NavigationBarView',
-    NAVIGATION_BACK_BTN: '.BackButton',
+    NAVIGATION_BACK_BTN: '#BackButton',
     NAVIGATION_TITLE: '.Title'
 }
 
 // TODO: clean up this wrong use of static functions
 export class Navigation {
 
-    constructor() { }
+    constructor() {
+        // Bind back button
+        document.querySelector(ClassKey.NAVIGATION_BACK_BTN).onclick = (() => {
+            this.dismissViewController()
+            Navigation.updateNavigationView()
+        })
+    }
 
     setRootViewController(viewController) {
         // Instantiate the view controller before handling it
@@ -53,21 +59,19 @@ export class Navigation {
 
     }
 
-    dismissViewController(viewController) {
-        let popTo = !!viewController
-        let targetVC = viewController;
+    dismissViewController(viewControllerToPopTo) {
+        let popTo = !!viewControllerToPopTo;
 
         (function dismiss(viewController) {
             if (!viewController instanceof ViewController) return
 
             Navigation.initiateNavigation(viewController, {shouldPop: true}, () => {
                 Navigation.updateNavigationView()
-                console.log(popTo, targetVC, viewController)
                 if (popTo) {
-                    if (NavigationStack.activeViewController.displayName === targetVC.displayName) {
+                    if (NavigationStack.activeViewController.displayName === viewControllerToPopTo.displayName) {
                         console.log('dismissViewController --> Popped to ' + NavigationStack.activeViewController.displayName)
                     } else {
-                        // Make sure that when dismissing, a viewcontroller always has a transitionstyle,
+                        // Make sure that when dismissing, a view controller always has a transition style,
                         // even if the presentation style is none; this will make sure that even if the first in the stack,
                         // is passed, any instance of the same type will be dismissed with a transition
                         if (!viewController.transitionStyle) viewController.transitionStyle = TransitionStyle.Horizontal
@@ -130,21 +134,30 @@ export class Navigation {
         }
     }
 
+    static setBackButton() {
+        let backButton = document.querySelector(ClassKey.NAVIGATION_BACK_BTN)
+
+        if (NavigationStack.stack.length > 1) {
+            let nextInLineVC = NavigationStack.stack[NavigationStack.stack.length-2];
+            backButton.innerHTML = nextInLineVC.displayName
+            backButton.classList.add('active')
+        } else {
+            backButton.classList.remove('active')
+        }
+    }
+
     static updateNavigationView() {
         let navigationBarView = document.querySelector(ClassKey.NAVIGATION_BAR_VIEW)
         let title = navigationBarView.querySelector(ClassKey.NAVIGATION_TITLE)
-        let backButton = navigationBarView.querySelector(ClassKey.NAVIGATION_BACK_BTN)
 
-        if (NavigationStack.stack.length <= 1) backButton.style.display = 'none'
+        this.setBackButton()
         title.innerHTML = NavigationStack.activeViewController.displayName
     }
 
     static removeFromDOM(viewController) {
         let rootView = document.querySelector(ClassKey.ROOT_VIEW)
-        if (NavigationStack.stack.length !== 1) {
-            rootView.removeChild(viewController.view)
-            console.log(`Removed viewcontroller ${viewController.displayName} from DOM`)
-        }
+        rootView.removeChild(viewController.view)
+        console.log(`Removed viewcontroller ${viewController.displayName} from DOM`)
     }
 
     static addToDOM(viewController) {

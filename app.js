@@ -29,6 +29,7 @@ new (class App extends AppModule {
         this.navigation.presentViewController(HomeViewController, {})
 
         // Examples of presenting and dismissing viewcontrollers
+        setTimeout(() => this.navigation.presentViewController(ProfileViewController, { transitionStyle: TransitionStyle.Vertical }), 500)
         setTimeout(() => this.navigation.presentViewController(ProfileViewController, { transitionStyle: TransitionStyle.Horizontal }), 1000)
         setTimeout(() => this.navigation.presentViewController(ProfileViewController, { transitionStyle: TransitionStyle.Vertical }), 1500)
         setTimeout(() => this.navigation.presentViewController(ProfileViewController, { transitionStyle: TransitionStyle.Horizontal }), 2000)
