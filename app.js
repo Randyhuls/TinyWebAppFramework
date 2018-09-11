@@ -30,15 +30,16 @@ new (class App extends AppModule {
 
         // Examples of presenting and dismissing viewcontrollers
         setTimeout(() => this.navigation.presentViewController(ProfileViewController, { transitionStyle: TransitionStyle.Horizontal }), 1000)
-        setTimeout(() => this.navigation.presentViewController(ProfileViewController, { transitionStyle: TransitionStyle.Vertical }), 2000)
+        setTimeout(() => this.navigation.presentViewController(ProfileViewController, { transitionStyle: TransitionStyle.Vertical }), 1500)
+        setTimeout(() => this.navigation.presentViewController(ProfileViewController, { transitionStyle: TransitionStyle.Horizontal }), 2000)
+        setTimeout(() => this.navigation.presentViewController(ProfileViewController, { transitionStyle: TransitionStyle.Vertical }), 2500)
+        setTimeout(() => this.navigation.presentViewController(ProfileViewController, { transitionStyle: TransitionStyle.Horizontal }), 3000)
+        setTimeout(() => this.navigation.presentViewController(ProfileViewController, { transitionStyle: TransitionStyle.Vertical }), 3500)
 
         // To dismiss a specific controller: loop through the stack to find instance you need in whichever way,
         // and pass it to the dismissViewController function
         let instanceVC = this.navigationStack.stack.filter((vc) => vc instanceof HomeViewController)[0]
-        console.log('instancevc', instanceVC)
-
-        setTimeout(() => this.navigation.dismissViewController(instanceVC), 3000) // Dismiss to home
+        setTimeout(() => this.navigation.dismissViewController(instanceVC), 4000) // Dismiss to home
         //setTimeout(() => this.navigation.dismissViewController(), 4000)
-        //setInterval(() => this.navigation.presentViewController(HomeViewController, {}), 2000)
     }
 })()

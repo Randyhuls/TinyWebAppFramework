@@ -29,12 +29,13 @@ export class Navigation {
 
     constructor() { }
 
-    static get activeViewController() {
-        return NavigationStack.activeViewController
-    }
+    setRootViewController(viewController) {
+        // Instantiate the view controller before handling it
+        viewController = new viewController()
 
-    static set activeViewController(viewController) {
-        NavigationStack.activeViewController = viewController
+        if (!viewController instanceof ViewController) return
+
+        NavigationStack.stack.unshift(viewController)
     }
 
     presentViewController(viewController, { transitionStyle }) {
@@ -52,34 +53,29 @@ export class Navigation {
 
     }
 
-    // TODO: allow dismissing view controller that is not the active view controller
     dismissViewController(viewController) {
-        let popTo = false
-        // If no view controller was passed, dismiss the active view controller
-        if (!viewController) {
-            viewController = NavigationStack.stack[NavigationStack.stack.length-1]
-        } else {
-            popTo = true
-        }
+        let popTo = !!viewController
+        let targetVC = viewController;
 
-        if (!viewController instanceof ViewController) return
+        (function dismiss(viewController) {
+            if (!viewController instanceof ViewController) return
 
-        Navigation.initiateNavigation(viewController, { shouldPop: true }, () => {
-            Navigation.updateNavigationView()
-
-            if (popTo) {
-                if (Navigation.activeViewController.displayName === viewController.displayName) {
-                    console.log('dismissViewController --> Popped to '+NavigationStack.activeViewController.displayName)
-                } else {
-                    console.log('-->', NavigationStack.activeViewController)
-                    // Make sure that when dismissing, a viewcontroller always has a transitionstyle,
-                    // even if the presentation style is none; this will make sure that even if the first in the stack,
-                    // is passed, any instance of the same type will be dismissed with a transition
-                    if (!viewController.transitionStyle) viewController.transitionStyle = TransitionStyle.Horizontal
-                    this.dismissViewController(viewController)
+            Navigation.initiateNavigation(viewController, {shouldPop: true}, () => {
+                Navigation.updateNavigationView()
+                console.log(popTo, targetVC, viewController)
+                if (popTo) {
+                    if (NavigationStack.activeViewController.displayName === targetVC.displayName) {
+                        console.log('dismissViewController --> Popped to ' + NavigationStack.activeViewController.displayName)
+                    } else {
+                        // Make sure that when dismissing, a viewcontroller always has a transitionstyle,
+                        // even if the presentation style is none; this will make sure that even if the first in the stack,
+                        // is passed, any instance of the same type will be dismissed with a transition
+                        if (!viewController.transitionStyle) viewController.transitionStyle = TransitionStyle.Horizontal
+                        dismiss(NavigationStack.activeViewController)
+                    }
                 }
-            }
-        })
+            })
+        })(NavigationStack.activeViewController)
     }
 
     static setTransitionStyle(viewController, transitionStyle) {
