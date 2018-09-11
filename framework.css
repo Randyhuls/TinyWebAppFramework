@@ -44,8 +44,12 @@ body {
     -webkit-box-align: center;
     -webkit-align-items: center;
     align-items: center; }
+    #NavigationBarView .NavigationBarItem.LeftItemView, #NavigationBarView .NavigationBarItem.RightItemView {
+      max-width: 100px; }
     #NavigationBarView .NavigationBarItem button {
       pointer-events: none;
+      border: 0;
+      background-color: transparent;
       opacity: 0;
       transition-duration: 0.5s; }
       #NavigationBarView .NavigationBarItem button.active {

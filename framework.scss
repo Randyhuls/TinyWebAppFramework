@@ -56,8 +56,14 @@ body {
     -webkit-align-items: center;
     align-items: center;
 
+    &.LeftItemView, &.RightItemView {
+      max-width: 100px;
+    }
+
     button {
       pointer-events: none;
+      border: 0;
+      background-color: transparent;
       opacity: 0;
       transition-duration: 0.5s;
 
