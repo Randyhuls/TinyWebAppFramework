@@ -28,7 +28,7 @@ new (class App extends AppModule {
         // Note: the first page on the stack is never transitioned
         this.navigation.presentViewController(HomeViewController, {})
 
-        // Examples of presenting and dismissing viewcontrollers
+        // Examples of presenting and dismissing view controllers
         setTimeout(() => this.navigation.presentViewController(ProfileViewController, { transitionStyle: TransitionStyle.Vertical }), 500)
         setTimeout(() => this.navigation.presentViewController(ProfileViewController, { transitionStyle: TransitionStyle.Horizontal }), 1000)
         setTimeout(() => this.navigation.presentViewController(ProfileViewController, { transitionStyle: TransitionStyle.Vertical }), 1500)
@@ -41,6 +41,8 @@ new (class App extends AppModule {
         // and pass it to the dismissViewController function
         let instanceVC = this.navigationStack.stack.filter((vc) => vc instanceof HomeViewController)[0]
         setTimeout(() => this.navigation.dismissViewController(instanceVC), 4000) // Dismiss to home
+
+        // Dismiss the active view controller
         //setTimeout(() => this.navigation.dismissViewController(), 4000)
     }
 })()

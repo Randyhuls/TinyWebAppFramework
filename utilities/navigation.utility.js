@@ -7,11 +7,6 @@ export const TransitionStyle = {
     Vertical: 'transition-vertical'
 }
 
-const AnimationDirection = {
-    Normal: 0,
-    Reverse: 1
-}
-
 export const NavigationStack = {
     stack:  [],  // Stack of viewcontrollers,
     activeViewController: null // Currently presented viewcontroller
