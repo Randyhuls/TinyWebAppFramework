@@ -8,7 +8,7 @@ export class ViewController {
         let document = parser.parseFromString(view, 'text/html')
 
         let vcContainer = document.querySelector('body').firstElementChild
-        vcContainer.classList.add('_VIEWCONTROLLER_')
+        vcContainer.classList.add('ViewController')
 
         this.view = vcContainer
         this.displayName = displayName

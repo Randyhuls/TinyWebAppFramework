@@ -2,8 +2,6 @@
 @import 'views/home/home.scss';
 @import 'views/profile/profile.scss';
 
-
-// CUSTOM GLOBAL STYLES
 body {
   // My custom global styles -->
 
@@ -11,55 +9,4 @@ body {
 
 
   // <-- My custom global styles
-}
-
-
-
-// DEFAULT SETTINGS - Only adjust if you understand the mechanics
-
-// Transition styles
-.transition-horizontal {
-  animation: transition-horizontal 0.3s ease-out forwards;
-}
-
-.transition-vertical {
-  animation: transition-vertical 0.3s ease-out forwards;
-}
-
-@keyframes transition-horizontal {
-  from { transform: translateX(100%) }
-  to { transform: translateX(0%) }
-}
-
-@keyframes transition-vertical {
-  from { transform: translateY(100%) }
-  to { transform: translateY(0%) }
-}
-
-// View controller styles
-._VIEWCONTROLLER_ {
-  position: absolute;
-  box-sizing: border-box;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: lightgray;
-}
-
-._VIEWCONTROLLER_._MODAL_ { //WIP
-  top: 20px;
-  left: 20px;
-  bottom: 20px;
-  right: 20px;
-
-  &:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5)
-  }
 }

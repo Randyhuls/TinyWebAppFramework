@@ -29,12 +29,12 @@ export class Navigation {
 
     constructor() { }
 
-    static get stack() {
-        return NavigationStack.stack
+    static get activeViewController() {
+        return NavigationStack.activeViewController
     }
 
-    static get activeViewController() {
-        return this.stack.activeViewController
+    static set activeViewController(viewController) {
+        NavigationStack.activeViewController = viewController
     }
 
     presentViewController(viewController, { transitionStyle }) {
@@ -46,9 +46,7 @@ export class Navigation {
         Navigation.setTransitionStyle(viewController, transitionStyle)
 
         Navigation.initiateNavigation(viewController, { shouldPop: false }, () => {
-            Navigation.addToStack(viewController)
             Navigation.updateNavigationView()
-
             console.log('Active view controller -->', NavigationStack.activeViewController.displayName)
         })
 
@@ -56,26 +54,36 @@ export class Navigation {
 
     // TODO: allow dismissing view controller that is not the active view controller
     dismissViewController(viewController) {
+        let popTo = false
         // If no view controller was passed, dismiss the active view controller
         if (!viewController) {
             viewController = NavigationStack.stack[NavigationStack.stack.length-1]
         } else {
-            // Instantiate the view controller before handling it
-            viewController = new viewController()
+            popTo = true
         }
 
         if (!viewController instanceof ViewController) return
 
         Navigation.initiateNavigation(viewController, { shouldPop: true }, () => {
-            Navigation.removeFromStack()
             Navigation.updateNavigationView()
 
-            console.log('Active view controller -->', NavigationStack.activeViewController.displayName)
+            if (popTo) {
+                if (Navigation.activeViewController.displayName === viewController.displayName) {
+                    console.log('dismissViewController --> Popped to '+NavigationStack.activeViewController.displayName)
+                } else {
+                    console.log('-->', NavigationStack.activeViewController)
+                    // Make sure that when dismissing, a viewcontroller always has a transitionstyle,
+                    // even if the presentation style is none; this will make sure that even if the first in the stack,
+                    // is passed, any instance of the same type will be dismissed with a transition
+                    if (!viewController.transitionStyle) viewController.transitionStyle = TransitionStyle.Horizontal
+                    this.dismissViewController(viewController)
+                }
+            }
         })
     }
 
     static setTransitionStyle(viewController, transitionStyle) {
-        if (this.stack.length === 0) {
+        if (NavigationStack.stack.length === 0) {
             viewController.transitionStyle = TransitionStyle.None
         } else {
             viewController.transitionStyle = transitionStyle ? transitionStyle : TransitionStyle.Horizontal
@@ -86,6 +94,7 @@ export class Navigation {
         let stack = NavigationStack.stack
         stack.push(viewController)
         NavigationStack.activeViewController = stack[stack.length-1]
+        Navigation.addToDOM(NavigationStack.activeViewController)
     }
 
     static removeFromStack() {
@@ -93,6 +102,7 @@ export class Navigation {
         if (stack.length === 1) return
 
         stack.pop()
+        Navigation.removeFromDOM(NavigationStack.activeViewController)
         NavigationStack.activeViewController = stack[stack.length-1]
     }
 
@@ -106,15 +116,19 @@ export class Navigation {
         }
 
         // A. If viewcontroller needs to be presented, insert it into the DOM first
-        if (!shouldPop) Navigation.addToDOM(viewController)
+        if (!shouldPop) {
+            Navigation.addToStack(viewController)
+            viewController = NavigationStack.activeViewController
+        }
 
         if (transitionStyle === TransitionStyle.None) {
+            if (shouldPop) Navigation.removeFromStack()
             callback()
         } else {
             // Only modify DOM and call callback when the animation has finished
             HTMLElementUtility.setClassWithAnimation(viewController.view, transitionStyle, shouldPop, () => {
                 // B. If viewcontroller needs to be dismissed, remove it from the DOM after the transition ends
-                //if (shouldPop) Navigation.removeFromDOM(viewController)
+                if (shouldPop) Navigation.removeFromStack()
                 callback()
             })
         }
@@ -125,20 +139,21 @@ export class Navigation {
         let title = navigationBarView.querySelector(ClassKey.NAVIGATION_TITLE)
         let backButton = navigationBarView.querySelector(ClassKey.NAVIGATION_BACK_BTN)
 
-        if (this.stack.length <= 1) backButton.style.display = 'none'
+        if (NavigationStack.stack.length <= 1) backButton.style.display = 'none'
         title.innerHTML = NavigationStack.activeViewController.displayName
     }
 
     static removeFromDOM(viewController) {
-        console.log(`removing viewcontroller ${viewController.displayName} from DOM`)
         let rootView = document.querySelector(ClassKey.ROOT_VIEW)
-        if (this.stack.length !== 1) {
+        if (NavigationStack.stack.length !== 1) {
             rootView.removeChild(viewController.view)
+            console.log(`Removed viewcontroller ${viewController.displayName} from DOM`)
         }
     }
 
     static addToDOM(viewController) {
         let rootView = document.querySelector(ClassKey.ROOT_VIEW)
         rootView.appendChild(viewController.view)
+        console.log(`Added viewcontroller ${viewController.displayName} to DOM`)
     }
 }

@@ -6,43 +6,4 @@
   padding: 20px;
   background-color: cornflowerblue; }
 
-.transition-horizontal {
-  animation: transition-horizontal 0.3s ease-out forwards; }
-
-.transition-vertical {
-  animation: transition-vertical 0.3s ease-out forwards; }
-
-@keyframes transition-horizontal {
-  from {
-    transform: translateX(100%); }
-  to {
-    transform: translateX(0%); } }
-@keyframes transition-vertical {
-  from {
-    transform: translateY(100%); }
-  to {
-    transform: translateY(0%); } }
-._VIEWCONTROLLER_ {
-  position: absolute;
-  box-sizing: border-box;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: lightgray; }
-
-._VIEWCONTROLLER_._MODAL_ {
-  top: 20px;
-  left: 20px;
-  bottom: 20px;
-  right: 20px; }
-  ._VIEWCONTROLLER_._MODAL_:after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5); }
-
 /*# sourceMappingURL=style.css.map */
