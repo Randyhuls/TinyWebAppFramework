@@ -39,9 +39,11 @@ new (class App extends AppModule {
 
         // To dismiss a specific controller: loop through the stack to find instance you need in whichever way,
         // and pass it to the dismissViewController function
-        let instanceVC = this.navigationStack.stack.filter((vc) => vc instanceof HomeViewController)[0]
+        //let instanceVC = this.navigationStack.stack.filter((vc) => vc instanceof ProfileViewController)[0]
         //setTimeout(() => this.navigation.dismissViewController(instanceVC), 4000) // Dismiss to home
-        setTimeout(() => this.navigation.setRootViewController = instanceVC, 4000)
+
+        // Set a new root controller, which will clear the current stack - aside from the active view controller
+        //this.navigation.setRootViewController = instanceVC
 
         // Dismiss the active view controller
         //setTimeout(() => this.navigation.dismissViewController(), 4000)

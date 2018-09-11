@@ -19,7 +19,6 @@ const ClassKey = {
     NAVIGATION_TITLE: '.Title'
 }
 
-// TODO: clean up this wrong use of static functions
 export class Navigation {
 
     constructor() {
@@ -31,23 +30,28 @@ export class Navigation {
     }
 
     set setRootViewController(viewController) {
+        console.log(viewController)
+
         // Instantiate the view controller before handling it
         if (!viewController instanceof ViewController) viewController = new viewController()
+        //console.log('aaa', viewController.view)
+        let avc = NavigationStack.activeViewController
 
         // Clear all stacked views from DOM, and then insert the new root view controller
         // before the active view controller
         let rootView = document.querySelector(ClassKey.ROOT_VIEW)
         NavigationStack.stack.forEach((vc) => {
-            if (vc.view !== NavigationStack.activeViewController.view) {
+            if (vc.view !== avc.view) {
                 rootView.removeChild(vc.view)
             }
         })
-        rootView.insertBefore(viewController.view, NavigationStack.activeViewController.view)
+
+        if (viewController.displayName !== avc.displayName) rootView.insertBefore(viewController.view, avc.view)
 
         // Clear array and only add the the new root view controller and the active view controller
-        NavigationStack.stack = [viewController, NavigationStack.activeViewController]
+        NavigationStack.stack = viewController.displayName === avc.displayName ? [avc] : [viewController, avc]
         Navigation.updateNavigationView()
-
+        
         console.log('Root view controller -->', viewController.displayName)
     }
 

@@ -72,6 +72,10 @@ body {
         opacity: 1;
       }
 
+      &:focus {
+        outline: none;
+      }
+
       &#BackButton {
         transform: translateX(-10px);
 

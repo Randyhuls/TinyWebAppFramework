@@ -55,6 +55,8 @@ body {
       #NavigationBarView .NavigationBarItem button.active {
         pointer-events: auto;
         opacity: 1; }
+      #NavigationBarView .NavigationBarItem button:focus {
+        outline: none; }
       #NavigationBarView .NavigationBarItem button#BackButton {
         transform: translateX(-10px);
         display: -ms-flexbox;
