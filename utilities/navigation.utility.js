@@ -2,9 +2,9 @@ import {ViewController} from "../models/viewcontroller.model";
 import { HTMLElementUtility } from './htmlelement.utility'
 
 export const TransitionStyle = {
-    None: '',
-    Horizontal: 'transition-horizontal',
-    Vertical: 'transition-vertical'
+    NONE: '',
+    HORIZONTAL: 'transition-horizontal',
+    VERTICAL: 'transition-vertical'
 }
 
 export const NavigationStack = {
@@ -69,7 +69,7 @@ export class Navigation {
                         // Make sure that when dismissing, a view controller always has a transition style,
                         // even if the presentation style is none; this will make sure that even if the first in the stack,
                         // is passed, any instance of the same type will be dismissed with a transition
-                        if (!viewController.transitionStyle) viewController.transitionStyle = TransitionStyle.Horizontal
+                        if (!viewController.transitionStyle) viewController.transitionStyle = TransitionStyle.HORIZONTAL
                         dismiss(NavigationStack.activeViewController)
                     }
                 }
@@ -79,9 +79,9 @@ export class Navigation {
 
     static setTransitionStyle(viewController, transitionStyle) {
         if (NavigationStack.stack.length === 0) {
-            viewController.transitionStyle = TransitionStyle.None
+            viewController.transitionStyle = TransitionStyle.NONE
         } else {
-            viewController.transitionStyle = transitionStyle ? transitionStyle : TransitionStyle.Horizontal
+            viewController.transitionStyle = transitionStyle ? transitionStyle : TransitionStyle.HORIZONTAL
         }
     }
 
@@ -105,9 +105,9 @@ export class Navigation {
         let transitionStyle = ''
 
         switch(viewController.transitionStyle) {
-            case TransitionStyle.None: transitionStyle = TransitionStyle.None; break
-            case TransitionStyle.Horizontal: transitionStyle = TransitionStyle.Horizontal; break
-            case TransitionStyle.Vertical: transitionStyle = TransitionStyle.Vertical; break
+            case TransitionStyle.NONE: transitionStyle = TransitionStyle.NONE; break
+            case TransitionStyle.HORIZONTAL: transitionStyle = TransitionStyle.HORIZONTAL; break
+            case TransitionStyle.VERTICAL: transitionStyle = TransitionStyle.VERTICAL; break
         }
 
         // A. If viewcontroller needs to be presented, insert it into the DOM first
@@ -116,7 +116,7 @@ export class Navigation {
             viewController = NavigationStack.activeViewController
         }
 
-        if (transitionStyle === TransitionStyle.None) {
+        if (transitionStyle === TransitionStyle.NONE) {
             if (shouldPop) Navigation.removeFromStack()
             callback()
         } else {
