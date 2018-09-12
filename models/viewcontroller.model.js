@@ -14,7 +14,7 @@ export class ViewController {
         this.displayName = displayName
 
         // Set transition style
-        this.transitionStyle = transitionStyle || TransitionStyle.Horizontal
+        this.transitionStyle = transitionStyle
 
         // Trigger viewBeforeLoad
         this.viewWillLoad()
@@ -24,6 +24,11 @@ export class ViewController {
      * Override these functions in your subclass to execute functions just before the the content has loaded
      */
     viewWillLoad() { }
+
+    /**
+     * Override these functions in your subclass to execute functions after the view has (re)appeared
+     */
+    viewDidAppear() { }
 
     /**
      * Override this function in your subclass to execute functions right after the content has loaded

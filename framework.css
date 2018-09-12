@@ -1,6 +1,11 @@
 body {
   font-family: sans-serif; }
 
+button:focus {
+  outline: none; }
+button:active {
+  opacity: 0.3; }
+
 .transition-horizontal {
   animation: transition-horizontal 0.3s ease-out forwards; }
 
@@ -46,6 +51,18 @@ body {
     align-items: center; }
     #NavigationBarView .NavigationBarItem.LeftBarItem, #NavigationBarView .NavigationBarItem.RightBarItem {
       max-width: 100px; }
+    #NavigationBarView .NavigationBarItem.LeftBarItem {
+      -ms-flex-pack: flex-start;
+      -webkit-box-pack: flex-start;
+      -webkit-justify-content: flex-start;
+      justify-content: flex-start;
+      margin-left: 10px; }
+    #NavigationBarView .NavigationBarItem.RightBarItem {
+      -ms-flex-pack: flex-end;
+      -webkit-box-pack: flex-end;
+      -webkit-justify-content: flex-end;
+      justify-content: flex-end;
+      margin-right: 10px; }
     #NavigationBarView .NavigationBarItem button {
       pointer-events: none;
       border: 0;
@@ -55,9 +72,9 @@ body {
       #NavigationBarView .NavigationBarItem button.active {
         pointer-events: auto;
         opacity: 1; }
-      #NavigationBarView .NavigationBarItem button:focus {
-        outline: none; }
       #NavigationBarView .NavigationBarItem button#BackButton {
+        opacity: 0;
+        pointer-events: none;
         transform: translateX(-10px);
         display: -ms-flexbox;
         display: -webkit-box;
@@ -72,9 +89,9 @@ body {
           content: '\2039';
           font-size: 24px;
           margin-top: -4px; }
-        #NavigationBarView .NavigationBarItem button#BackButton:active {
-          opacity: 0.3; }
         #NavigationBarView .NavigationBarItem button#BackButton.active {
+          opacity: 1;
+          pointer-events: auto;
           transform: translateX(0px); }
   #NavigationBarView .LeftBarItem {
     flex: 1; }

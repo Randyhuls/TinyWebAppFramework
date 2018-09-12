@@ -2,7 +2,7 @@
 import { AppModule } from './models/app-module.model.js'
 
 // Utilities
-import { NavigationBarItemType, TransitionStyle } from './utilities/navigation.utility'
+import {Navigation, NavigationBarItemType, TransitionStyle} from './utilities/navigation.utility'
 
 // Viewcontrollers
 import { HomeViewController } from './views/home/home.viewcontroller.js'
@@ -26,26 +26,8 @@ new (class App extends AppModule {
 
         // Here you can initiate your starting page, like home
         // Note: the first page on the stack is never transitioned
-        this.navigation.presentViewController(HomeViewController, {})
+        Navigation.presentViewController(HomeViewController, {})
 
-        // Adding a button to the navigation bar
-        let rightNavItem = this.navigationBar.createBarItem({
-            title: 'See more',
-            type: NavigationBarItemType.RIGHT,
-            handler: () => this.navigation.presentViewController(ProfileViewController, { transitionStyle: TransitionStyle.VERTICAL })
-        })
-
-        this.navigationBar.setNavigationBarItem(rightNavItem)
-
-        // To dismiss a specific controller: loop through the stack to find instance you need in whichever way,
-        // and pass it to the dismissViewController function
-        //let instanceVC = this.navigationStack.stack.filter((vc) => vc instanceof ProfileViewController)[0]
-        //setTimeout(() => this.navigation.dismissViewController(instanceVC), 4000) // Dismiss to home
-
-        // Set a new root controller, which will clear the current stack - aside from the active view controller
-        //this.navigation.setRootViewController = instanceVC
-
-        // Dismiss the active view controller
-        //setTimeout(() => this.navigation.dismissViewController(), 4000)
+        setTimeout(() => Navigation.presentViewController(ProfileViewController, {}), 500)
     }
 })()

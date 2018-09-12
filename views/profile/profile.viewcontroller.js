@@ -12,6 +12,11 @@ export class ProfileViewController extends ViewController {
         super('Profile', ProfileTemplate)
     }
 
+    viewDidAppear() {
+        super.viewDidAppear()
+        console.log('ProfileViewController.viewDidAppear --> The view did appear')
+    }
+
     viewWillLoad() {
         super.viewWillLoad()
         console.log('ProfileViewController.viewWillLoad --> The view is about to load')

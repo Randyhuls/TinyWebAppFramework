@@ -4,10 +4,6 @@ import { Navigation, NavigationStack, NavigationBar } from '../utilities/navigat
 export class AppModule {
 
     constructor() {
-        this.navigation = new Navigation()
-        this.navigationStack = NavigationStack
-        this.navigationBar = new NavigationBar()
-
         let rootView = document.querySelector('#RootView')
         let rootViewObserver = new MutationObserver((mutations) => {
             mutations.forEach(mutation => this.applicationRootViewDidChange(mutation))
@@ -15,14 +11,15 @@ export class AppModule {
 
         rootViewObserver.observe(rootView, {
             childList: true,
-            subtree: true,
-            characterData: true
+            subtree: true
         })
 
         window.addEventListener('DOMContentLoaded', this.applicationWillLoad.bind(this))
         window.addEventListener('load', this.applicationDidLoad.bind(this))
         window.addEventListener('beforeunload', this.applicationWillUnload.bind(this))
         window.addEventListener('unload', this.applicationDidUnload.bind(this))
+
+        Navigation.allowBackNavigation = true
     }
 
     applicationRootViewDidChange(mutation) {
@@ -30,21 +27,28 @@ export class AppModule {
         let addedNodes = Array.from(mutation.addedNodes)
         let removedNodes = Array.from(mutation.removedNodes)
 
-        //console.log(mutation)
+        // Previously active view controller
+        let previousVC = NavigationStack.stack[NavigationStack.stack.length-2]
 
-        // Trigger life cycle events to subviewcontrollers
-        if (addedNodes.includes(this.navigationStack.activeViewController.view)) {
-            // Previously active viewcontroller
-            let previousVC = this.navigationStack.stack[this.navigationStack.stack.length-2]
-
-            if (previousVC) previousVC.viewWillUnload()
-            this.navigationStack.activeViewController.viewDidLoad()
+        // Trigger life cycle events to subview controllers
+        if (addedNodes.includes(NavigationStack.activeViewController.view)) {
+            if (previousVC) {
+                if (NavigationBar.currentContext) NavigationBar.resetNavigationBarItems()
+                previousVC.viewWillUnload()
+            }
+            NavigationStack.activeViewController.viewDidLoad()
+            NavigationStack.activeViewController.viewDidAppear()
         }
 
-        if (removedNodes.includes(this.navigationStack.activeViewController.view)) {
-            this.navigationStack.activeViewController.viewDidUnload()
-        }
+        // If what was removed is a view controller,  its viewDidUnload should be called.
+        // It  also means there was a view controller stacked below it (now the active view),
+        // which means its viewWillLoad should be called
+        let removedElementWasVC = !!removedNodes.filter(node => node.classList.contains('ViewController')).length > 0
 
+        if (removedElementWasVC) {
+            NavigationStack.dequeuedViewController.viewDidUnload()
+            NavigationStack.activeViewController.viewDidAppear()
+        }
     }
 
     /**

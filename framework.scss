@@ -4,6 +4,16 @@ body {
   font-family: sans-serif;
 }
 
+button {
+  &:focus {
+    outline: none;
+  }
+
+  &:active {
+    opacity: 0.3;
+  }
+}
+
 // Transition styles
 .transition-horizontal {
   animation: transition-horizontal 0.3s ease-out forwards;
@@ -60,6 +70,22 @@ body {
       max-width: 100px;
     }
 
+    &.LeftBarItem {
+      -ms-flex-pack: flex-start;
+      -webkit-box-pack: flex-start;
+      -webkit-justify-content: flex-start;
+      justify-content: flex-start;
+      margin-left: 10px;
+    }
+
+    &.RightBarItem {
+      -ms-flex-pack: flex-end;
+      -webkit-box-pack: flex-end;
+      -webkit-justify-content: flex-end;
+      justify-content: flex-end;
+      margin-right: 10px;
+    }
+
     button {
       pointer-events: none;
       border: 0;
@@ -72,11 +98,9 @@ body {
         opacity: 1;
       }
 
-      &:focus {
-        outline: none;
-      }
-
       &#BackButton {
+        opacity: 0;
+        pointer-events: none;
         transform: translateX(-10px);
 
         display: -ms-flexbox;
@@ -97,11 +121,9 @@ body {
           margin-top: -4px;
         }
 
-        &:active {
-          opacity: 0.3;
-        }
-
         &.active {
+          opacity: 1;
+          pointer-events: auto;
           transform: translateX(0px);
         }
       }

@@ -8,7 +8,9 @@ const ClassKey = {
     NAVIGATION_TITLE: '#NavigationBarView .NavigationBarItem.CenterBarItem .Title',
     NAVIGATION_LEFT_BAR_ITEM: '#NavigationBarView .NavigationBarItem.LeftBarItem',
     NAVIGATION_RIGHT_BAR_ITEM: '#NavigationBarView .NavigationBarItem.RightBarItem',
-    NAVIGATION_CENTER_BAR_ITEM: '#NavigationBarView .NavigationBarItem.CenterBarItem'
+    NAVIGATION_CENTER_BAR_ITEM: '#NavigationBarView .NavigationBarItem.CenterBarItem',
+    NAVIGATION_BAR_ITEM: '#NavigationBarView .NavigationBarItem',
+    NAVIGATION_BAR_ITEM_BTN: '#NavigationBarView .NavigationBarItem .BarItemButton'
 }
 
 export const TransitionStyle = {
@@ -19,7 +21,8 @@ export const TransitionStyle = {
 
 export const NavigationStack = {
     stack:  [],  // Stack of view controllers,
-    activeViewController: null // Currently presented view controller
+    activeViewController: null, // Currently presented view controller,
+    dequeuedViewController: null // Used to call viewDidUnload events
 }
 
 export const NavigationBarItemType = {
@@ -30,7 +33,18 @@ export const NavigationBarItemType = {
 
 export class NavigationBar {
 
-    setNavigationBarItem(navigationBarItem) {
+    get currentContext() {
+        return this._currentContext
+    }
+
+    set currentContext(isCurrentContext) {
+        this._currentContext = isCurrentContext
+    }
+
+    static setNavigationBarItem(navigationBarItem, { currentContext }) {
+
+        if (currentContext) this.currentContext = currentContext
+
         switch(navigationBarItem.type) {
             case NavigationBarItemType.LEFT:
                 document.querySelector(ClassKey.NAVIGATION_LEFT_BAR_ITEM).appendChild(navigationBarItem.view)
@@ -50,7 +64,15 @@ export class NavigationBar {
 
     }
 
-    createBarItem({ title, imgPath, type, handler }) {
+    static resetNavigationBarItems() {
+        let barItems = Array.from(document.querySelectorAll(ClassKey.NAVIGATION_BAR_ITEM))
+        barItems.forEach(barItem => {
+            let barItemBtn = barItem.querySelector(ClassKey.NAVIGATION_BAR_ITEM_BTN)
+            if (barItemBtn) barItem.removeChild(barItemBtn)
+        })
+    }
+
+    static createBarItem({ title, imgPath, type, handler }) {
 
         if (!title || !imgPath && !type && !handler) {
             throw 'NavigationBarItem.create --> Missing parameters in navigation bar item'
@@ -59,6 +81,7 @@ export class NavigationBar {
         let navigationItem = {}
 
         let itemView = document.createElement('button')
+        itemView.classList.add('BarItemButton')
 
         if (title) {
             itemView.innerHTML = title
@@ -82,15 +105,28 @@ export class NavigationBar {
 
 export class Navigation {
 
-    constructor() {
-        // Bind back button
-        document.querySelector(ClassKey.NAVIGATION_BACK_BTN).onclick = (() => {
-            this.dismissViewController()
-            Navigation.updateNavigationView()
-        })
+    static get allowBackNavigation() {
+        return this._allowBackNavigation
     }
 
-    set setRootViewController(viewController) {
+    static set allowBackNavigation(isAllowed) {
+        let rightBarItem = document.querySelector(ClassKey.NAVIGATION_RIGHT_BAR_ITEM)
+        let backButton = document.querySelector(ClassKey.NAVIGATION_BACK_BTN)
+
+        if (isAllowed) {
+            // Bind back button
+            backButton.onclick = (() => {
+                Navigation.dismissViewController()
+                Navigation.updateNavigationBar()
+            })
+        } else {
+            rightBarItem.removeChild(backButton)
+        }
+
+        this._allowBackNavigation = isAllowed
+    }
+
+    static set setRootViewController(viewController) {
         console.log(viewController)
 
         // Instantiate the view controller before handling it
@@ -111,34 +147,35 @@ export class Navigation {
 
         // Clear array and only add the the new root view controller and the active view controller
         NavigationStack.stack = viewController.displayName === avc.displayName ? [avc] : [viewController, avc]
-        Navigation.updateNavigationView()
+        Navigation.updateNavigationBar()
 
         console.log('Root view controller -->', viewController.displayName)
     }
 
-    presentViewController(viewController, { transitionStyle }) {
+    static presentViewController(viewController, { transitionStyle }) {
         // Instantiate the view controller before handling it
         viewController = new viewController()
 
         if (!viewController instanceof ViewController) return
 
-        Navigation.setTransitionStyle(viewController, transitionStyle)
+        this.setTransitionStyle(viewController, transitionStyle)
 
-        Navigation.initiateNavigation(viewController, { shouldPop: false }, () => {
-            Navigation.updateNavigationView()
+        this.initiateNavigation(viewController, { shouldPop: false }, () => {
+            Navigation.updateNavigationBar()
             console.log('Active view controller -->', NavigationStack.activeViewController.displayName)
         })
 
     }
 
-    dismissViewController(viewControllerToPopTo) {
+    static dismissViewController(viewControllerToPopTo) {
+        let self = this
         let popTo = !!viewControllerToPopTo;
 
         (function dismiss(viewController) {
             if (!viewController instanceof ViewController) return
 
-            Navigation.initiateNavigation(viewController, {shouldPop: true}, () => {
-                Navigation.updateNavigationView()
+            self.initiateNavigation(viewController, {shouldPop: true}, () => {
+                self.updateNavigationBar()
                 if (popTo) {
                     if (NavigationStack.activeViewController.displayName === viewControllerToPopTo.displayName) {
                         console.log('dismissViewController --> Popped to ' + NavigationStack.activeViewController.displayName)
@@ -166,15 +203,16 @@ export class Navigation {
         let stack = NavigationStack.stack
         stack.push(viewController)
         NavigationStack.activeViewController = stack[stack.length-1]
-        Navigation.addToDOM(NavigationStack.activeViewController)
+        this.addToDOM(NavigationStack.activeViewController)
     }
 
     static removeFromStack() {
         let stack = NavigationStack.stack
         if (stack.length === 1) return
 
+        NavigationStack.dequeuedViewController = NavigationStack.activeViewController
         stack.pop()
-        Navigation.removeFromDOM(NavigationStack.activeViewController)
+        this.removeFromDOM(NavigationStack.activeViewController)
         NavigationStack.activeViewController = stack[stack.length-1]
     }
 
@@ -189,18 +227,18 @@ export class Navigation {
 
         // A. If viewcontroller needs to be presented, insert it into the DOM first
         if (!shouldPop) {
-            Navigation.addToStack(viewController)
+            this.addToStack(viewController)
             viewController = NavigationStack.activeViewController
         }
 
         if (transitionStyle === TransitionStyle.NONE) {
-            if (shouldPop) Navigation.removeFromStack()
+            if (shouldPop) this.removeFromStack()
             callback()
         } else {
             // Only modify DOM and call callback when the animation has finished
             HTMLElementUtility.setClassWithAnimation(viewController.view, transitionStyle, shouldPop, () => {
                 // B. If viewcontroller needs to be dismissed, remove it from the DOM after the transition ends
-                if (shouldPop) Navigation.removeFromStack()
+                if (shouldPop) this.removeFromStack()
                 callback()
             })
         }
@@ -218,11 +256,11 @@ export class Navigation {
         }
     }
 
-    static updateNavigationView() {
+    static updateNavigationBar() {
         let navigationBarView = document.querySelector(ClassKey.NAVIGATION_BAR_VIEW)
         let title = navigationBarView.querySelector(ClassKey.NAVIGATION_TITLE)
 
-        this.setBackButton()
+        if (Navigation.allowBackNavigation) this.setBackButton()
         title.innerHTML = NavigationStack.activeViewController.displayName
     }
 
