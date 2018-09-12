@@ -1,11 +1,12 @@
 // Utilities
-import { Navigation, NavigationStack } from '../utilities/navigation.utility.js'
+import { Navigation, NavigationStack, NavigationBar } from '../utilities/navigation.utility.js'
 
 export class AppModule {
 
     constructor() {
         this.navigation = new Navigation()
         this.navigationStack = NavigationStack
+        this.navigationBar = new NavigationBar()
 
         let rootView = document.querySelector('#RootView')
         let rootViewObserver = new MutationObserver((mutations) => {

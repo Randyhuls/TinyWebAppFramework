@@ -1,11 +1,14 @@
-import {ViewController} from "../models/viewcontroller.model";
+import { ViewController } from '../models/viewcontroller.model';
 import { HTMLElementUtility } from './htmlelement.utility'
 
 const ClassKey = {
     ROOT_VIEW: '#RootView',
     NAVIGATION_BAR_VIEW: '#NavigationBarView',
     NAVIGATION_BACK_BTN: '#BackButton',
-    NAVIGATION_TITLE: '.Title'
+    NAVIGATION_TITLE: '#NavigationBarView .NavigationBarItem.CenterBarItem .Title',
+    NAVIGATION_LEFT_BAR_ITEM: '#NavigationBarView .NavigationBarItem.LeftBarItem',
+    NAVIGATION_RIGHT_BAR_ITEM: '#NavigationBarView .NavigationBarItem.RightBarItem',
+    NAVIGATION_CENTER_BAR_ITEM: '#NavigationBarView .NavigationBarItem.CenterBarItem'
 }
 
 export const TransitionStyle = {
@@ -21,17 +24,60 @@ export const NavigationStack = {
 
 export const NavigationBarItemType = {
     LEFT: 'LeftBarItem',
-    RIGHT: 'RightBarItem'
+    RIGHT: 'RightBarItem',
+    CENTER: 'CenterBarItem'
 }
 
-export class NavigationBarItem {
+export class NavigationBar {
 
-    setNavigationBarItem(navigationBarItemType) {
-        switch(navigationBarItemType) {
-            
+    setNavigationBarItem(navigationBarItem) {
+        switch(navigationBarItem.type) {
+            case NavigationBarItemType.LEFT:
+                document.querySelector(ClassKey.NAVIGATION_LEFT_BAR_ITEM).appendChild(navigationBarItem.view)
+                    .classList.add('active')
+                break
+
+            case NavigationBarItemType.RIGHT:
+                document.querySelector(ClassKey.NAVIGATION_RIGHT_BAR_ITEM).appendChild(navigationBarItem.view)
+                    .classList.add('active')
+                break
+
+            case NavigationBarItemType.CENTER:
+                document.querySelector(ClassKey.NAVIGATION_CENTER_BAR_ITEM).appendChild(navigationBarItem.view)
+                    .classList.add('active')
+                break
         }
+
     }
 
+    createBarItem({ title, imgPath, type, handler }) {
+
+        if (!title || !imgPath && !type && !handler) {
+            throw 'NavigationBarItem.create --> Missing parameters in navigation bar item'
+        }
+
+        let navigationItem = {}
+
+        let itemView = document.createElement('button')
+
+        if (title) {
+            itemView.innerHTML = title
+            navigationItem.title = title
+        } else if (imgPath) {
+            let iconView = document.createElement('img')
+            iconView.src = imgPath
+            itemView.appendChild(iconView)
+            navigationItem.icon = iconView
+        }
+
+        itemView.onclick = handler.bind(this)
+
+        navigationItem.view = itemView
+        navigationItem.type = type
+        navigationItem.handler = handler
+
+        return navigationItem
+    }
 }
 
 export class Navigation {
