@@ -2,7 +2,7 @@
 import { AppModule } from './models/app-module.model.js'
 
 // Utilities
-import {Navigation, NavigationBarItemType, TransitionStyle} from './utilities/navigation.utility'
+import { Navigation, NavigationBarItemType, TransitionStyle } from './utilities/navigation.utility'
 
 // Viewcontrollers
 import { HomeViewController } from './views/home/home.viewcontroller.js'
