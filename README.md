@@ -54,7 +54,7 @@ new (class App extends AppModule {
 
     applicationDidLoad() {
         super.applicationDidLoad()
-        // Present the first view controller
+        
         Navigation.presentViewController(HomeViewController, {})
         // Navigation.presentViewController(HomeViewController, { transitionStyle: TransitionStyle.VERTICAL })
     }
@@ -107,9 +107,6 @@ import * as HomeTemplate from './home.html'
 
 // Models
 import { ViewController } from '../../models/viewcontroller.model'
-
-// Utilities
-import { NavigationBar, NavigationBarItemType } from '../../utilities/navigation.utility'
 
 export class HomeViewController extends ViewController {
 
