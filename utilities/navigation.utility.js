@@ -176,6 +176,7 @@ export class Navigation {
             self.initiateNavigation(viewController, {shouldPop: true}, () => {
                 self.updateNavigationBar()
                 if (popTo) {
+                    // TODO: should compare based on some type of id, like an instanceID
                     if (NavigationStack.activeViewController.displayName === viewControllerToPopTo.displayName) {
                         console.log('dismissViewController --> Popped to ' + NavigationStack.activeViewController.displayName)
                     } else {
