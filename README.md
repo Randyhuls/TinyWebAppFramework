@@ -115,9 +115,6 @@ import { ViewController } from '../../models/viewcontroller.model'
 // Utilities
 import { NavigationBar, NavigationBarItemType } from '../../utilities/navigation.utility'
 
-// Services
-import { HTTP } from '../../services/http.service'
-
 export class HomeViewController extends ViewController {
 
     constructor() {
