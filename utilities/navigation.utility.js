@@ -127,7 +127,6 @@ export class Navigation {
     }
 
     static set setRootViewController(viewController) {
-        console.log(viewController)
 
         // Instantiate the view controller before handling it
         if (!viewController instanceof ViewController) viewController = new viewController()
