@@ -75,19 +75,15 @@ Navigation.dismissViewController()
 > Setting the root view controller will clear the navigation stack, with the exception of the active view controller.
 
 ```javascript
-import { NavigationBar, NavigationBarItemType,  } from './utilities/navigation.utility'
-
-let rightNavItem = NavigationBar.createBarItem({
-    title: 'See more',
-    type: NavigationBarItemType.RIGHT,
-    handler: () => goToMyPage()
-})
+Navigation.setRootViewController(HomeViewController)
 ```
 
 ##### Adding navigation bar items
 > Adding custom navigation bar items can be done through the `NavigationBar` utility.
 Supported `NavigationBarItemType`'s are `LEFT`, `RIGHT` and `CENTER`. 
-Passing the `currentContext` option will determine whether the bar items are available in the current view or in all views. 
+Passing the `currentContext` option will determine whether the bar items are available in the current view or in all views.
+A bar item must either be passed the `title` or `imgPath` property. 
+The latter will allow you to set an image icon for the bar item. 
 
 ```javascript
 import { NavigationBar, NavigationBarItemType,  } from './utilities/navigation.utility'
