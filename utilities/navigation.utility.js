@@ -176,8 +176,7 @@ export class Navigation {
             self.initiateNavigation(viewController, {shouldPop: true}, () => {
                 self.updateNavigationBar()
                 if (popTo) {
-                    // TODO: should compare based on some type of id, like an instanceID
-                    if (NavigationStack.activeViewController.displayName === viewControllerToPopTo.displayName) {
+                    if (NavigationStack.activeViewController.id === viewControllerToPopTo.id) {
                         console.log('dismissViewController --> Popped to ' + NavigationStack.activeViewController.displayName)
                     } else {
                         // Make sure that when dismissing, a view controller always has a transition style,

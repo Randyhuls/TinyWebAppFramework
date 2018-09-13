@@ -2,7 +2,7 @@
 import { AppModule } from './models/app-module.model.js'
 
 // Utilities
-import { Navigation, NavigationBarItemType, TransitionStyle } from './utilities/navigation.utility'
+import { Navigation, NavigationStack, NavigationBarItemType, TransitionStyle } from './utilities/navigation.utility'
 
 // Viewcontrollers
 import { HomeViewController } from './views/home/home.viewcontroller.js'
@@ -27,7 +27,5 @@ new (class App extends AppModule {
         // Here you can initiate your starting page, like home
         // Note: the first page on the stack is never transitioned
         Navigation.presentViewController(HomeViewController, {})
-
-        setTimeout(() => Navigation.presentViewController(ProfileViewController, {}), 500)
     }
 })()

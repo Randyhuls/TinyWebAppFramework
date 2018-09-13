@@ -5,10 +5,13 @@ import * as HomeTemplate from './home.html'
 import { ViewController } from '../../models/viewcontroller.model'
 
 // Utilities
-import { NavigationBar, NavigationBarItemType } from '../../utilities/navigation.utility'
+import { Navigation, NavigationBar, NavigationBarItemType } from '../../utilities/navigation.utility'
 
 // Services
 import { HTTP } from '../../services/http.service'
+
+// View controllers
+import { ProfileViewController } from '../profile/profile.viewcontroller'
 
 export class HomeViewController extends ViewController {
 
@@ -24,7 +27,7 @@ export class HomeViewController extends ViewController {
         let rightNavItem = NavigationBar.createBarItem({
             title: 'See more',
             type: NavigationBarItemType.RIGHT,
-            handler: () => alert('hello')
+            handler: () => Navigation.presentViewController(ProfileViewController, {})
         })
         NavigationBar.setNavigationBarItem(rightNavItem, { currentContext: true })
     }

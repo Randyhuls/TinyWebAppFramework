@@ -1,4 +1,5 @@
 import { TransitionStyle } from '../utilities/navigation.utility';
+import { Helpers } from '../utilities/helpers.utility.js'
 
 export class ViewController {
 
@@ -12,6 +13,7 @@ export class ViewController {
 
         this.view = vcContainer
         this.displayName = displayName
+        this.id = `vc-instance-${Helpers.generateId()}`
 
         // Set transition style
         this.transitionStyle = transitionStyle

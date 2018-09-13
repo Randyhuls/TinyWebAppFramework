@@ -63,8 +63,7 @@ new (class App extends AppModule {
 
 ##### Dismissing view controllers
 > Calling the `dismissViewController` method will pop the active view controller from the navigation stack.
-Optionally, you can pass an `instance` of a view controller - and view controllers will be popped until it 
-finds a similar instance.
+Optionally, you can pass an `instance` of a view controller - and view controllers will be popped until this instance is matched.
 
 ```javascript
 Navigation.dismissViewController()
