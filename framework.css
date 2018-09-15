@@ -63,36 +63,31 @@ button:active {
       -webkit-justify-content: flex-end;
       justify-content: flex-end;
       margin-right: 10px; }
-    #NavigationBarView .NavigationBarItem button {
+    #NavigationBarView .NavigationBarItem .BarItemButton, #NavigationBarView .NavigationBarItem #BackButton {
       pointer-events: none;
       border: 0;
       background-color: transparent;
       opacity: 0;
-      transition-duration: 0.5s; }
-      #NavigationBarView .NavigationBarItem button.active {
+      transition-duration: 0.5s;
+      display: -ms-flexbox;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: flex;
+      -ms-flex-align: center;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      font-size: 14px; }
+      #NavigationBarView .NavigationBarItem .BarItemButton.active, #NavigationBarView .NavigationBarItem #BackButton.active {
+        opacity: 1;
         pointer-events: auto;
-        opacity: 1; }
-      #NavigationBarView .NavigationBarItem button#BackButton {
-        opacity: 0;
-        pointer-events: none;
-        transform: translateX(10px);
-        display: -ms-flexbox;
-        display: -webkit-box;
-        display: -webkit-flex;
-        display: flex;
-        -ms-flex-align: center;
-        -webkit-box-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-        font-size: 14px; }
-        #NavigationBarView .NavigationBarItem button#BackButton:before {
-          content: '\2039';
-          font-size: 24px;
-          margin-top: -4px; }
-        #NavigationBarView .NavigationBarItem button#BackButton.active {
-          opacity: 1;
-          pointer-events: auto;
-          transform: translateX(0px); }
+        transform: translateX(0px); }
+    #NavigationBarView .NavigationBarItem #BackButton {
+      transform: translateX(10px); }
+      #NavigationBarView .NavigationBarItem #BackButton:before {
+        content: '\2039';
+        font-size: 24px;
+        margin-top: -4px; }
   #NavigationBarView .LeftBarItem {
     flex: 1; }
   #NavigationBarView .CenterBarItem {

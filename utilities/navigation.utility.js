@@ -1,3 +1,6 @@
+// TODO: hook window navigation events to the navigationstack/pushing/popping
+
+
 import { ViewController } from '../models/viewcontroller.model';
 import { HTMLElementUtility } from './htmlelement.utility'
 
@@ -110,7 +113,6 @@ export class Navigation {
     }
 
     static set allowBackNavigation(isAllowed) {
-        let rightBarItem = document.querySelector(ClassKey.NAVIGATION_RIGHT_BAR_ITEM)
         let backButton = document.querySelector(ClassKey.NAVIGATION_BACK_BTN)
 
         if (isAllowed) {
@@ -120,7 +122,7 @@ export class Navigation {
                 Navigation.updateNavigationBar()
             })
         } else {
-            rightBarItem.removeChild(backButton)
+            backButton.classList.remove('active')
         }
 
         this._allowBackNavigation = isAllowed
