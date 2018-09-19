@@ -71,7 +71,7 @@ Navigation.dismissViewController()
 ```
 
 ##### Setting the root view controller
-> Setting the root view controller will clear the navigation stack, with the exception of the active view controller.
+> Setting a new root view controller will clear the navigation stack, with the exception of the active view controller.
 
 ```javascript
 Navigation.setRootViewController(HomeViewController)
