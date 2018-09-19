@@ -11,8 +11,18 @@ export class HTMLElementUtility {
             element.classList.add(className)
         }
 
+        this.waitForAnimation(element, onFinished)
+    }
+
+    static removeClassWithAnimation(element, className, onFinished) {
+        element.classList.remove(className)
+
+        HTMLElementUtility.waitForAnimation(element, onFinished)
+    }
+
+    static waitForAnimation(element, onFinished) {
         let computed = window.getComputedStyle(element)
-        let duration = parseFloat(computed.animationDuration || computed.transitionDuration || 0)*1000
+        let duration = (parseFloat(computed.animationDuration) || parseFloat(computed.transitionDuration) || 0)*1000
 
         setTimeout(onFinished, duration)
     }

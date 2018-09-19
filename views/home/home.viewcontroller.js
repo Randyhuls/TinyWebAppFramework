@@ -6,6 +6,7 @@ import { ViewController } from '../../models/viewcontroller.model'
 
 // Utilities
 import { Navigation, NavigationBar, NavigationBarItemType } from '../../utilities/navigation.utility'
+import { Template } from '../../utilities/template.utility.js'
 
 // Services
 import { HTTP } from '../../services/http.service'
@@ -40,13 +41,18 @@ export class HomeViewController extends ViewController {
     viewWillLoad() {
         super.viewWillLoad()
         console.log('HomeViewController.viewWillLoad --> The view is about to load')
-
     }
 
     viewDidLoad() {
         super.viewDidLoad()
         console.log('HomeViewController.viewDidLoad --> The view has finished loading')
 
+        // Fill template with data
+        let templateData = {
+            title: 'Home',
+            subtitle: 'This is the homepage'
+        }
+        Template.render('HomeViewController', templateData)
     }
 
     viewWillUnload() {

@@ -48,30 +48,34 @@ export class NavigationBar {
 
         if (currentContext) this.currentContext = currentContext
 
+        let barItem
+
         switch(navigationBarItem.type) {
             case NavigationBarItemType.LEFT:
-                document.querySelector(ClassKey.NAVIGATION_LEFT_BAR_ITEM).appendChild(navigationBarItem.view)
-                    .classList.add('active')
+                barItem = document.querySelector(ClassKey.NAVIGATION_LEFT_BAR_ITEM)
                 break
-
             case NavigationBarItemType.RIGHT:
-                document.querySelector(ClassKey.NAVIGATION_RIGHT_BAR_ITEM).appendChild(navigationBarItem.view)
-                    .classList.add('active')
+                barItem = document.querySelector(ClassKey.NAVIGATION_RIGHT_BAR_ITEM)
                 break
-
             case NavigationBarItemType.CENTER:
-                document.querySelector(ClassKey.NAVIGATION_CENTER_BAR_ITEM).appendChild(navigationBarItem.view)
-                    .classList.add('active')
+                barItem = document.querySelector(ClassKey.NAVIGATION_CENTER_BAR_ITEM)
                 break
         }
 
+        let barItemButton = navigationBarItem.view
+        barItem.appendChild(barItemButton)
+
+        // TODO: fix: for some reason, class transition not working on baritembutton, only when it is removed
+        HTMLElementUtility.setClassWithAnimation(barItemButton, 'active')
     }
 
     static resetNavigationBarItems() {
         let barItems = Array.from(document.querySelectorAll(ClassKey.NAVIGATION_BAR_ITEM))
         barItems.forEach(barItem => {
             let barItemBtn = barItem.querySelector(ClassKey.NAVIGATION_BAR_ITEM_BTN)
-            if (barItemBtn) barItem.removeChild(barItemBtn)
+            if (barItemBtn) HTMLElementUtility.removeClassWithAnimation(barItemBtn, 'active', () => {
+                barItem.removeChild(barItemBtn)
+            })
         })
     }
 
