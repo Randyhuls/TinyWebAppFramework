@@ -5,7 +5,7 @@ import * as ProfileTemplate from './profile.html'
 import { ViewController } from '../../models/viewcontroller.model'
 
 // Utilities
-import { NavigationBar, NavigationBarItemType } from '../../utilities/navigation.utility'
+import { NavigationBar, NavigationBarItemType, TransitionStyle } from '../../utilities/navigation.utility'
 
 // Services
 import { HTTP } from '../../services/http.service'
@@ -13,7 +13,9 @@ import { HTTP } from '../../services/http.service'
 export class ProfileViewController extends ViewController {
 
     constructor() {
-        super('Profile', ProfileTemplate)
+        super('Profile', ProfileTemplate, {
+            delegateData: { 'DataPassedByProfile': 'SomeTestObject' }
+        })
     }
 
     viewDidAppear() {

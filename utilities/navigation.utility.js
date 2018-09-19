@@ -129,10 +129,8 @@ export class Navigation {
     }
 
     static set setRootViewController(viewController) {
+        if (!viewController instanceof ViewController) return
 
-        // Instantiate the view controller before handling it
-        if (!viewController instanceof ViewController) viewController = new viewController()
-        //console.log('aaa', viewController.view)
         let avc = NavigationStack.activeViewController
 
         // Clear all stacked views from DOM, and then insert the new root view controller
@@ -154,12 +152,12 @@ export class Navigation {
     }
 
     static presentViewController(viewController, { transitionStyle }) {
-        // Instantiate the view controller before handling it
-        viewController = new viewController()
-
         if (!viewController instanceof ViewController) return
 
         this.setTransitionStyle(viewController, transitionStyle)
+
+        // Call first life cycle event
+        viewController.viewWillLoad()
 
         this.initiateNavigation(viewController, { shouldPop: false }, () => {
             Navigation.updateNavigationBar()

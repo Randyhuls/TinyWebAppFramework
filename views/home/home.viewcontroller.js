@@ -16,25 +16,30 @@ import { ProfileViewController } from '../profile/profile.viewcontroller'
 export class HomeViewController extends ViewController {
 
     constructor() {
-        super('Home', HomeTemplate)
+        super('Home', HomeTemplate, {})
     }
 
     viewDidAppear() {
         super.viewDidAppear()
         console.log('HomeViewController.viewDidAppear --> The view did appear')
 
+        let profileVC = new ProfileViewController()
+
+        profileVC.onDismiss((data) => {
+            console.log('data', data.detail)
+        })
         // Adding a button to the navigation bar
         let rightNavItem = NavigationBar.createBarItem({
             title: 'See more',
             type: NavigationBarItemType.RIGHT,
-            handler: () => Navigation.presentViewController(ProfileViewController, {})
+            handler: () => Navigation.presentViewController(profileVC, {})
         })
         NavigationBar.setNavigationBarItem(rightNavItem, { currentContext: true })
     }
 
     viewWillLoad() {
         super.viewWillLoad()
-        console.log('ProfileViewController.viewWillLoad --> The view is about to load')
+        console.log('HomeViewController.viewWillLoad --> The view is about to load')
 
     }
 

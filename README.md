@@ -55,8 +55,8 @@ new (class App extends AppModule {
     applicationDidLoad() {
         super.applicationDidLoad()
         
-        Navigation.presentViewController(HomeViewController, {})
-        // Navigation.presentViewController(HomeViewController, { transitionStyle: TransitionStyle.VERTICAL })
+        Navigation.presentViewController(new HomeViewController(), {})
+        // Navigation.presentViewController(new HomeViewController(), { transitionStyle: TransitionStyle.VERTICAL })
     }
 })()
 ```
@@ -74,7 +74,7 @@ Navigation.dismissViewController()
 > Setting a new root view controller will clear the navigation stack, with the exception of the active view controller.
 
 ```javascript
-Navigation.setRootViewController(HomeViewController)
+Navigation.setRootViewController(new HomeViewController())
 ```
 
 ##### Adding navigation bar items
@@ -110,8 +110,8 @@ import { ViewController } from '../../models/viewcontroller.model'
 export class HomeViewController extends ViewController {
 
     constructor() {
-        // Pass the display name and HTML template string to the super
-        super('Home', HomeTemplate)
+        // Pass the display name and HTML template string to the super - and optionally, an options object
+        super('Home', HomeTemplate, {})
     }
 
     viewDidAppear() {
@@ -139,4 +139,35 @@ export class HomeViewController extends ViewController {
         // The view was unloaded from the rootview'
     }
 }
+```
+
+##### Passing data between view controllers
+> You can pass data between view controllers by setting the `delegateData` option and passing it your custom data. 
+```javascript
+// HTML template
+import * as ProfileTemplate from './profile.html'
+
+// Models
+import { ViewController } from '../../models/viewcontroller.model'
+
+export class HomeViewController extends ViewController {
+
+    constructor() {
+        super('Profile', ProfileTemplate, { 
+            delegateData: { 'myData': 'Hello tiny framework' } 
+        })
+    }
+
+}
+```
+
+> By calling the `onDismiss` method on a view controller instance, you can listen for the data.
+Upon calling the viewDidUnload life cycle function of the view controller, the `onDismiss` method is called.
+
+```javascript
+let profileVC = new ProfileViewController()
+
+profileVC.onDismiss((data) => {
+    console.log(data.detail) // { 'myData': 'Hello tiny framework' } 
+})
 ```

@@ -26,6 +26,6 @@ new (class App extends AppModule {
 
         // Here you can initiate your starting page, like home
         // Note: the first page on the stack is never transitioned
-        Navigation.presentViewController(HomeViewController, {})
+        Navigation.presentViewController(new HomeViewController(), {})
     }
 })()
