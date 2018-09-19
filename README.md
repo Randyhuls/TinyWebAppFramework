@@ -170,4 +170,6 @@ let profileVC = new ProfileViewController()
 profileVC.onDismiss((data) => {
     console.log(data.detail) // { 'myData': 'Hello tiny framework' } 
 })
+
+Navigation.presentViewController(profileVC, {})
 ```
