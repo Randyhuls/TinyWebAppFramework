@@ -2,7 +2,7 @@ export class Layout {
     // TODO: add more methods
 
     setValue(modelName, value) {
-        let element = document.querySelector(`[data-bind=${modelName}]`) || document.querySelector(`[data-bind-two=${modelName}]`)
+        let element = document.querySelector(`[data-bind=${modelName}]`)
 
         if (!element) throw `No such element to be found: data-bind="${modelName}"`
 
@@ -28,8 +28,7 @@ export class Layout {
             document.querySelector(`#${element}`) || document.querySelector(`.${element}`)
 
         for (let prop in this.data) {
-            let propElement = rootElement.querySelector(`*[data-bind='${prop}']`) ||
-                rootElement.querySelector(`*[data-bind-two='${prop}']`)
+            let propElement = rootElement.querySelector(`*[data-bind='${prop}']`)
 
             if (propElement) {
                 switch (propElement.tagName.toLowerCase()) {
@@ -44,8 +43,10 @@ export class Layout {
         }
 
         // Set on change events for two way binding
-        Array.from(document.querySelectorAll('*[data-bind-two]')).forEach(element => {
-            let attr = element.getAttribute('data-bind-two')
+        Array.from(document.querySelectorAll('*[data-bind]'))
+            .filter(e => e.tagName.toLowerCase() === 'input')
+            .forEach(element => {
+            let attr = element.getAttribute('data-bind')
             this.data[attr] = element.value
             element.onchange = (e) => this.data[attr] = e.target.value
         })
