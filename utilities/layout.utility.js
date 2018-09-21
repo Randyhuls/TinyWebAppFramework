@@ -48,7 +48,7 @@ export class Layout {
             .forEach(element => {
             let attr = element.getAttribute('data-bind')
             this.data[attr] = element.value
-            element.onchange = (e) => this.data[attr] = e.target.value
+            element.onkeydown = (e) => this.data[attr] = e.target.value
         })
     }
 
