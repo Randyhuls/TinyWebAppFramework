@@ -53,8 +53,6 @@ export class HomeViewController extends ViewController {
             myinput: 'This text is two-way binding'
         })
 
-
-
         // Do an HTTP GET request
         HTTP.get('https://jsonplaceholder.typicode.com/todos/4').then(
             (res) => {
@@ -77,6 +75,5 @@ export class HomeViewController extends ViewController {
     viewDidUnload() {
         super.viewDidUnload()
         console.log('HomeViewController.viewDidUnload --> The view was unloaded from the rootview')
-
     }
 }

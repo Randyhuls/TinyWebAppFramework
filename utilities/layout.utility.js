@@ -1,4 +1,6 @@
 export class Layout {
+    // TODO: add more methods
+
     setValue(modelName, value) {
         let element = document.querySelector(`[data-bind=${modelName}]`) || document.querySelector(`[data-bind-two=${modelName}]`)
 
@@ -45,7 +47,7 @@ export class Layout {
         Array.from(document.querySelectorAll('*[data-bind-two]')).forEach(element => {
             let attr = element.getAttribute('data-bind-two')
             this.data[attr] = element.value
-            element.onchange = (e) => data[attr] = e.target.value
+            element.onchange = (e) => this.data[attr] = e.target.value
         })
     }
 
