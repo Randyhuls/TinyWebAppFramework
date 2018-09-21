@@ -1,5 +1,6 @@
 import { TransitionStyle } from '../utilities/navigation.utility';
 import { Helpers } from '../utilities/helpers.utility.js'
+import { Renderer } from '../utilities/renderer.utility.js'
 
 const EventKeys = {
     DISMISS_VIEWCONTROLLER: 'dismissviewcontroller'
@@ -21,6 +22,9 @@ export class ViewController {
 
         // Set transition style
         this.transitionStyle = transitionStyle
+
+        // Set template renderer
+        this.renderer = new Renderer()
 
         // Delegate event for passing data between view controllers
         this.delegateData = delegateData ? delegateData : {}

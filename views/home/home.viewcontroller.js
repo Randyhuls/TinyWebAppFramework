@@ -6,7 +6,6 @@ import { ViewController } from '../../models/viewcontroller.model'
 
 // Utilities
 import { Navigation, NavigationBar, NavigationBarItemType } from '../../utilities/navigation.utility'
-import { Template } from '../../utilities/template.utility.js'
 
 // Services
 import { HTTP } from '../../services/http.service'
@@ -50,9 +49,15 @@ export class HomeViewController extends ViewController {
         // Fill template with data
         let templateData = {
             title: 'Home',
-            subtitle: 'This is the homepage'
+            subtitle: 'This is the homepage',
+            'my-input': 'hi :)'
         }
-        Template.render('HomeViewController', templateData)
+
+        this.renderer.render('HomeViewController', templateData)
+
+        // setTimeout(() => {
+        //     this.renderer.setValue('title', 'TEST!')
+        // }, 3000)
     }
 
     viewWillUnload() {
