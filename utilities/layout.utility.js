@@ -1,4 +1,4 @@
-export class Renderer {
+export class Layout {
     setValue(modelName, value) {
         let element = document.querySelector(`[data-bind=${modelName}]`) || document.querySelector(`[data-bind-two=${modelName}]`)
 
@@ -18,37 +18,34 @@ export class Renderer {
 
     render(element, data) {
         if (!element instanceof (HTMLElement || String)) throw 'Parameter is not of type HTMLElement or String'
-        if (!data instanceof (Array || Object)) throw 'Data is not of type Object or Array'
+        if (!data instanceof Object) throw 'Data is not of type Object'
 
         this.data = data
 
         let rootElement = element instanceof HTMLElement ? element :
             document.querySelector(`#${element}`) || document.querySelector(`.${element}`)
 
-        for (let prop in data) {
+        for (let prop in this.data) {
             let propElement = rootElement.querySelector(`*[data-bind='${prop}']`) ||
                 rootElement.querySelector(`*[data-bind-two='${prop}']`)
 
             if (propElement) {
                 switch (propElement.tagName.toLowerCase()) {
                     case 'input':
-                        propElement.value = data[prop]
+                        propElement.value = this.data[prop]
                         break
                     default:
-                        propElement.innerHTML = data[prop]
+                        propElement.innerHTML = this.data[prop]
+                        break
                 }
             }
         }
 
         // Set on change events for two way binding
-        let twoWayBindingElements = Array.from(document.querySelectorAll('*[data-bind-two]'))
-        twoWayBindingElements.forEach(element => {
+        Array.from(document.querySelectorAll('*[data-bind-two]')).forEach(element => {
             let attr = element.getAttribute('data-bind-two')
-            data[attr] = element.value
-            element.onchange = (e) => {
-                data[attr] = e.target.value
-                console.log('value of '+element.tagName+' changed', data)
-            }
+            this.data[attr] = element.value
+            element.onchange = (e) => data[attr] = e.target.value
         })
     }
 

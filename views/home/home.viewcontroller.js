@@ -47,17 +47,25 @@ export class HomeViewController extends ViewController {
         console.log('HomeViewController.viewDidLoad --> The view has finished loading')
 
         // Fill template with data
-        let templateData = {
+        this.layout.render('HomeViewController', {
             title: 'Home',
             subtitle: 'This is the homepage',
-            'my-input': 'hi :)'
-        }
+            myinput: 'This text is two-way binding'
+        })
 
-        this.renderer.render('HomeViewController', templateData)
 
-        // setTimeout(() => {
-        //     this.renderer.setValue('title', 'TEST!')
-        // }, 3000)
+
+        // Do an HTTP GET request
+        HTTP.get('https://jsonplaceholder.typicode.com/todos/4').then(
+            (res) => {
+                let response = JSON.parse(res)
+                console.log('Http response:', response)
+
+                // Setting seperate value
+                this.layout.setValue('subtitle', response.title)
+            },
+            (err) => console.error(err)
+        )
     }
 
     viewWillUnload() {
