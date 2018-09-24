@@ -50,7 +50,7 @@ export class HomeViewController extends ViewController {
         this.layout.render('HomeViewController', {
             title: 'Home',
             subtitle: 'This is the homepage',
-            myinput: 'This text is two-way binding'
+            myinput: ''
         })
 
         // Do an HTTP GET request

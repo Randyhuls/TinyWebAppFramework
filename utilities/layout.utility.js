@@ -42,7 +42,7 @@ export class Layout {
             }
         }
 
-        // Set on change events for two way binding
+        // Observe mutations in element for two way binding
         Array.from(document.querySelectorAll('*[data-bind]'))
         .filter(e => e.tagName.toLowerCase() === 'input')
         .forEach(element => {
