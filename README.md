@@ -6,11 +6,27 @@ Small client-side iOS inspired web-app framework
 * Readme is still being updated
 
 ## Table of contents
-1. Install
+1. Install (WIP)
 2. Usage
+    * Bootstrapping
+3. Navigation
+    * Presenting view controllers
+    * Dismissing view controllers   
+    * Setting the root view controller
+    * Adding navigation bar items
+4. View controllers
+    * Creating a custom view controller
+    * Passing data between view controllers
+5. Template rendering with the `layout` utility
+    * Rendering custom data in view controller view
+    * Reading and updating existing data
+6. HTTP requests with the `HTTP` utility
+    * GET - returns Promise<ResponseText>
+    * POST - returns Promise<ResponseText>
+    * Request - returns Promise<ResponseText>
 
 ## 1. Install
-WIP
+Work in progress...
 
 ## 2. Usage
 ### Bootstrapping
