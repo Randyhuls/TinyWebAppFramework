@@ -44,11 +44,16 @@ export class Layout {
 
         // Set on change events for two way binding
         Array.from(document.querySelectorAll('*[data-bind]'))
-            .filter(e => e.tagName.toLowerCase() === 'input')
-            .forEach(element => {
+        .filter(e => e.tagName.toLowerCase() === 'input')
+        .forEach(element => {
             let attr = element.getAttribute('data-bind')
             this.data[attr] = element.value
-            element.onkeydown = (e) => this.data[attr] = e.target.value
+
+            // Observe element
+            let observer = new MutationObserver(mutations => {
+                mutations.forEach(mutation => this.data[attr] = mutation.target.value)
+            })
+            observer.observe(element, { attributes: true })
         })
     }
 
