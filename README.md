@@ -173,3 +173,45 @@ profileVC.onDismiss((data) => {
 
 Navigation.presentViewController(profileVC, {})
 ```
+
+### Template rendering with the `layout` utility
+
+##### Rendering custom data in view controller view
+> Set an element's `data-bind` attribute to create a model reference to the renderer. 
+```html
+    <div id="HomeViewController">
+        <h1 data-bind="title"></h1>
+        <article>
+            <p data-bind="subtitle"></p>
+            <input data-bind="myinput" type="text"/>
+        </article>
+    </div>
+```
+
+> You can call `layout.render` inside a view controller and pass it an element or element name, along with a custom data object. 
+```javascript
+    viewDidLoad() {
+        super.viewDidLoad()
+
+        // Fill template with data
+        this.layout.render('HomeViewController', {
+            title: 'Home',
+            subtitle: 'This is the homepage',
+            myinput: ''
+        })
+    }
+```
+##### Reading and updating existing data
+> Input elements automatically come with two-way binding. You may read the current data by calling `layout.data`.
+With `layout.setValue(model, value)` you can update your custom data.
+```javascript
+   viewDidLoad() {
+           super.viewDidLoad()
+   
+           // Read the current data state
+           console.log(this.layout.data)
+           
+           // Update the data
+           this.layout.setValue('myinput', 'my.name@email.com')
+       }
+```
