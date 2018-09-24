@@ -206,12 +206,12 @@ Navigation.presentViewController(profileVC, {})
 With `layout.setValue(model, value)` you can update your custom data.
 ```javascript
    viewDidLoad() {
-           super.viewDidLoad()
-   
-           // Read the current data state
-           console.log(this.layout.data)
-           
-           // Update the data
-           this.layout.setValue('myinput', 'my.name@email.com')
-       }
+       super.viewDidLoad()
+
+       // Read the current data state
+       console.log(this.layout.data)
+       
+       // Update the data
+       this.layout.setValue('myinput', 'my.name@email.com')
+   }
 ```
