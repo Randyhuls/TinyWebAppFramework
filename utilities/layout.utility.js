@@ -49,7 +49,7 @@ export class Layout {
             let attr = element.getAttribute('data-bind')
             this.data[attr] = element.value
 
-            // Observe element
+            // Observe element; upon mutations update the layout data model
             let observer = new MutationObserver(mutations => {
                 mutations.forEach(mutation => this.data[attr] = mutation.target.value)
             })

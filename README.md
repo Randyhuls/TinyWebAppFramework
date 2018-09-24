@@ -179,39 +179,84 @@ Navigation.presentViewController(profileVC, {})
 ##### Rendering custom data in view controller view
 > Set an element's `data-bind` attribute to create a model reference to the renderer. 
 ```html
-    <div id="HomeViewController">
-        <h1 data-bind="title"></h1>
-        <article>
-            <p data-bind="subtitle"></p>
-            <input data-bind="myinput" type="text"/>
-        </article>
-    </div>
+<div id="HomeViewController">
+    <h1 data-bind="title"></h1>
+    <article>
+        <p data-bind="subtitle"></p>
+        <input data-bind="myinput" type="text"/>
+    </article>
+</div>
 ```
 
 > You can call `layout.render` inside a view controller and pass it an element or element name, along with a custom data object. 
 ```javascript
-    viewDidLoad() {
-        super.viewDidLoad()
+viewDidLoad() {
+    super.viewDidLoad()
 
-        // Fill template with data
-        this.layout.render('HomeViewController', {
-            title: 'Home',
-            subtitle: 'This is the homepage',
-            myinput: ''
-        })
-    }
+    // Fill template with data
+    this.layout.render('HomeViewController', {
+        title: 'Home',
+        subtitle: 'This is the homepage',
+        myinput: ''
+    })
+}
 ```
 ##### Reading and updating existing data
 > Input elements automatically come with two-way binding. You may read the current data by calling `layout.data`.
 With `layout.setValue(model, value)` you can update your custom data.
 ```javascript
-   viewDidLoad() {
-       super.viewDidLoad()
+viewDidLoad() {
+   super.viewDidLoad()
 
-       // Read the current data state
-       console.log(this.layout.data)
-       
-       // Update the data
-       this.layout.setValue('myinput', 'my.name@email.com')
-   }
+   // Read the current data state
+   console.log(this.layout.data)
+   
+   // Update the data
+   this.layout.setValue('myinput', 'my.name@email.com')
+}
+```
+
+### HTTP requests with the `HTTP` utility
+
+##### GET - returns Promise<ResponseText>
+> Takes an URL `String` and returns a `Promise`. 
+```javascript
+HTTP.get('https://mywebsite/api/v1/mydata').then(
+    (res) => {
+        let response = JSON.parse(res)
+        console.log('GET response:', response)
+
+        // Do something with the data
+    },
+    (err) => console.error(err)
+)
+```
+
+##### POST - returns Promise<ResponseText>
+> Takes an URL `String` and optionally a `Body`; returns a `Promise`. 
+```javascript
+HTTP.post('https://mywebsite/api/v1/mydata', { myJSON: 'test' }).then(
+     (res) => {
+         let response = JSON.parse(res)
+         console.log('POST response:', response)
+ 
+         // Respond to the result
+     },
+     (err) => console.error(err)
+ )
+```
+
+##### Request - returns Promise<ResponseText>
+> Takes the `Method`, an URL `String`, optionally a `Body` and custom `Headers`; returns a `Promise`.
+The `Headers` parameter accepts an `Array` with key-pair values.  
+```javascript
+HTTP.request('GET', 'https://mywebsite/api/v1/mydata', null, [{'Content-Type': 'application/json'}]).then(
+    (res) => {
+        let response = JSON.parse(res)
+        console.log('POST response:', response)
+
+        // Respond to the result
+    },
+    (err) => console.error(err)
+)
 ```
