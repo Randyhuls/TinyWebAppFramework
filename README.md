@@ -26,7 +26,7 @@ Small client-side iOS inspired web-app framework
     * Request - returns Promise<ResponseText>
 
 ## 1. Install
-Work in progress...
+### Work in progress...
 
 ## 2. Usage
 ### Bootstrapping
